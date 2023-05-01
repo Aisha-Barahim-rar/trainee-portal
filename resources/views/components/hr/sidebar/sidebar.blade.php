@@ -17,7 +17,7 @@
 >
     <x-sidebar.header />
 
-    <x-admin.sidebar.content :students="$students" />
+    <x-hr.sidebar.content :students="$students" />
 
     <x-sidebar.footer />
 </aside>

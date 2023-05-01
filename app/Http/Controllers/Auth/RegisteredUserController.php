@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
-
+use Illuminate\Support\Facades\DB;
 class RegisteredUserController extends Controller
 {
     /**
@@ -43,19 +43,38 @@ class RegisteredUserController extends Controller
             'role' => $request->role,
         ]);
 
+        
+
         event(new Registered($user));
+
+
 
         Auth::login($user);
 
         if(Auth::user()->role=="admin"){
+            $admin = DB::table('admin')->insert([
+                'user_id' => $user->id,
+            ]);
             return redirect(RouteServiceProvider::ADMIN);
         }elseif(Auth::user()->role=="student"){
+            $student = DB::table('student')->insert([
+                'user_id' => $user->id,
+            ]);
             return redirect(RouteServiceProvider::STUDENT);
         }elseif(Auth::user()->role=="hr"){
+            $hr_admin = DB::table('hr_admin')->insert([
+                'user_id' => $user->id,
+            ]);
             return redirect(RouteServiceProvider::HR);
         }elseif(Auth::user()->role=="company"){
+            $company_mentor = DB::table('company_mentor')->insert([
+                'user_id' => $user->id,
+            ]);
             return redirect(RouteServiceProvider::COMPANY);
         }elseif(Auth::user()->role=="university"){
+            $university_mentor = DB::table('university_mentor')->insert([
+                'user_id' => $user->id,
+            ]);
             return redirect(RouteServiceProvider::UNIVERSITY);
         }
         else{

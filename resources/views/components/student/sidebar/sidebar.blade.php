@@ -1,8 +1,4 @@
 
-@props([
-    'students' => $students
-])
-
 <x-sidebar.overlay />
 
 <aside
@@ -17,7 +13,7 @@
 >
     <x-sidebar.header />
 
-    <x-admin.sidebar.content :students="$students" />
+    <x-student.sidebar.content />
 
     <x-sidebar.footer />
 </aside>

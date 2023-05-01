@@ -52,16 +52,25 @@
 
     </x-sidebar.dropdown>
 
-    <x-sidebar.link title="Trainees" href="{{ route('admin.trainees.index') }}" :isActive="request()->routeIs('admin.trainees.index')" />
-    <x-sidebar.link title="Company Mentors" href="#" />
-    <x-sidebar.link title="University Mentors" href="#" />
-    <x-sidebar.link title="HR Admins" href="#" />
-   <!-- @php
-        $links = array_fill(0, 20, '');
-    @endphp
+        <x-sidebar.dropdown
+        title="Evaluation"
+        :active="Str::startsWith(request()->route()->uri(), 'buttons')"
+    >
+        <x-slot name="icon">
+            <x-heroicon-o-clipboard-check class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
+        </x-slot>
 
-    @foreach ($links as $index => $link)
-        <x-sidebar.link title="Dummy link!! {{ $index + 1 }}" href="#" />
-    @endforeach -->
+
+    @foreach ($students as $student)
+        <x-sidebar.sublink
+            title="{{ $student->name }}"
+            href="{{ route('buttons.text') }}"
+            :active="request()->routeIs('buttons.text')"
+        />
+    @endforeach
+
+    </x-sidebar.dropdown>
+
+
 
 </x-perfect-scrollbar>

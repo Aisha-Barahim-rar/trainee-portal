@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
-
+use App\Http\Controllers\Admin\TraineesController;
+use Illuminate\Support\Facades\DB;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,6 +18,7 @@ use App\Http\Controllers\ProfileController;
 Route::get('/', function () {
     return view('auth.login');
 });
+
 
 Route::get('/admin/dashboard', function () {
     return view('admin.dashboard');
@@ -42,6 +44,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/admin/trainees', [TraineesController::class, 'index'])->name('admin.trainees.index');
 });
 
 // useless routes

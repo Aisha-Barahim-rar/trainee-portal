@@ -1,3 +1,6 @@
+@props([
+    'students' => $students
+])
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -32,7 +35,7 @@
     >
         <div class="min-h-screen text-gray-900 bg-gray-100 dark:bg-dark-eval-0 dark:text-gray-200">
             <!-- Sidebar -->
-            <x-student.sidebar.sidebar />
+            <x-hr.sidebar.sidebar :students="$students" />
 
             <!-- Page Wrapper -->
             <div

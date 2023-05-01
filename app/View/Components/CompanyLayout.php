@@ -6,7 +6,7 @@ use Illuminate\View\Component;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
 
-class AdminLayout extends Component
+class CompanyLayout extends Component
 {
     /**
      * Get the view / contents that represents the component.
@@ -17,6 +17,6 @@ class AdminLayout extends Component
         ->join('student', 'users.ID', '=', 'student.user_id')
         ->select('student.*', 'users.email', 'users.name')
         ->get();
-        return view('admin.layouts.app',['students'=>$students]);
+        return view('company.layouts.app',['students'=>$students]);
     }
 }
