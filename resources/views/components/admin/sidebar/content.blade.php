@@ -53,15 +53,9 @@
     </x-sidebar.dropdown>
 
     <x-sidebar.link title="Trainees" href="{{ route('admin.trainees.index') }}" :isActive="request()->routeIs('admin.trainees.index')" />
-    <x-sidebar.link title="Company Mentors" href="#" />
-    <x-sidebar.link title="University Mentors" href="#" />
-    <x-sidebar.link title="HR Admins" href="#" />
-   <!-- @php
-        $links = array_fill(0, 20, '');
-    @endphp
+    <x-sidebar.link title="Company Mentors" href="{{ route('admin.company.index') }}" :isActive="request()->routeIs('admin.company.index')" />
+    <x-sidebar.link title="University Mentors" href="{{ route('admin.university.index') }}" :isActive="request()->routeIs('admin.university.index')" />
+    <x-sidebar.link title="HR Admins" href="{{ route('admin.hr.index') }}" :isActive="request()->routeIs('admin.hr.index')" />
 
-    @foreach ($links as $index => $link)
-        <x-sidebar.link title="Dummy link!! {{ $index + 1 }}" href="#" />
-    @endforeach -->
 
 </x-perfect-scrollbar>

@@ -14,24 +14,24 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\RedirectResponse;
 
-class TraineesController extends Controller
+class HRController extends Controller
 {
     //
-    public function create(): View
-    {
-        return view('admin.trainees.insert');
-    }
-
     public function index(Request $request): View
     {
         // make conditions
-        $students = DB::table('users')
-        ->join('student', 'users.ID', '=', 'student.user_id')
-        ->select('student.*', 'users.email', 'users.name')
+        $hr_admins = DB::table('users')
+        ->join('hr_admin', 'users.ID', '=', 'hr_admin.user_id')
+        ->select('hr_admin.*', 'users.email', 'users.name')
         ->get();
-        return view('admin.trainee.list', [
-            'students' => $students,
+        return view('admin.hr.list', [
+            'hr_admins' => $hr_admins,
         ]);
+    }
+
+    public function create(): View
+    {
+        return view('admin.hr.insert');
     }
 
     public function store(Request $request): RedirectResponse
@@ -87,13 +87,11 @@ class TraineesController extends Controller
 
     public function destroy($id,Request $request): RedirectResponse
     {
-
-        
-
-        $user_id = DB::table('student')
+        $user_id = DB::table('hr_admin')
        ->find($id);
-        DB::table('student')->delete($id);
+        DB::table('hr_admin')->delete($id);
         DB::table('users')->delete($user_id->user_id);
-        return Redirect::route('admin.trainees.index')->with('status', 'trainee-deleted');
+
+        return Redirect::route('admin.hr.index')->with('status', 'hr-deleted');
     }
 }

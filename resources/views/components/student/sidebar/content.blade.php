@@ -6,8 +6,8 @@
 
     <x-sidebar.link
         title="Dashboard"
-        href="{{ route('admin.dashboard') }}"
-        :isActive="request()->routeIs('admin.dashboard')"
+        href="{{ route('student.dashboard') }}"
+        :isActive="request()->routeIs('student.dashboard')"
     >
         <x-slot name="icon">
             <x-icons.dashboard class="flex-shrink-0 w-6 h-6" aria-hidden="true" />

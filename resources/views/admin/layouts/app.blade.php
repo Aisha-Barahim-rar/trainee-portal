@@ -49,7 +49,7 @@
             >
 
                 <!-- Navbar -->
-                <x-navbar />
+                <x-admin.navbar />
 
                 <!-- Page Heading -->
                 <header>
