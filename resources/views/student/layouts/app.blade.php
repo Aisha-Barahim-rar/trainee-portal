@@ -45,7 +45,7 @@
             >
 
                 <!-- Navbar -->
-                <x-navbar />
+                <x-student.navbar />
 
                 <!-- Page Heading -->
                 <header>

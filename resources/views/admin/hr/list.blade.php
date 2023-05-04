@@ -21,6 +21,12 @@
                             {{ __('HR admin has been deleted successfully.') }}
                         </p>
                     @endif
+                    @if (session('status') === 'hr-updated')
+                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 4000)"
+                            class="text-sm mt-2 mb-6 font-medium text-green-600">
+                            {{ __('HR admin has been updated successfully.') }}
+                        </p>
+                    @endif
                     {{ __('HR Admins List') }}
                     <ul role="list" class="divide-y divide-gray-100 mt-6">
                         @foreach ($hr_admins as $hr_admin)
@@ -38,15 +44,14 @@
                                     <p class="mt-1 text-xs leading-5 text-gray-500">
                                     </p>
                                     <div class="inline-flex rounded-md shadow-sm" role="group">
-                                        <button type="button"
-                                            class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-l-md hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+                                        <x-button variant="secondary" href="{{ route('admin.hr.view',$hr_admin->ID) }}" 
+                                            :squared=true class="rounded-l-md border-t border-b border-r">
                                             <x-heroicon-o-eye class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
-                                        </button>
-                                        <button type="button"
-                                            class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+                                        </x-button>
+                                        <x-button variant="secondary" href="{{ route('admin.hr.edit',$hr_admin->ID) }}" 
+                                            :squared=true class="border-t border-b border-r">
                                             <x-heroicon-o-pencil-alt class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
-
-                                        </button>
+                                        </x-button>
                                         <x-button variant="danger" x-data=""
                                             x-on:click.prevent="$dispatch('open-modal', 'confirm-hr-deletion-{{ $hr_admin->ID }}')"
                                             :squared=true class="rounded-r-md">

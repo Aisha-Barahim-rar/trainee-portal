@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\ProfileUpdateRequest;
 
 class UniversityController extends Controller
 {
@@ -121,5 +122,48 @@ class UniversityController extends Controller
         } catch (\Exception $ex) {
             return Redirect::route('admin.dashboard');
         }
+    }
+
+    public function view($id,Request $request): View
+    {
+        $university_mentors = DB::table('users')
+        ->join('university_mentor', 'users.ID', '=', 'university_mentor.user_id')
+        ->select('university_mentor.*', 'users.email', 'users.name')
+        ->where('university_mentor.ID',$id)
+        ->get();
+        return view('admin.university.view', [
+            'university_mentors' => $university_mentors,
+        ]);
+    }
+
+    public function edit($id, Request $request): View
+    {
+        $university_mentors = DB::table('users')
+            ->join('university_mentor', 'users.ID', '=', 'university_mentor.user_id')
+            ->select('university_mentor.*', 'users.email', 'users.name')
+            ->where('university_mentor.ID', $id)
+            ->get();
+        return view('admin.university.edit', [
+            'university_mentor' => $university_mentors[0],
+        ]);
+    }
+
+    public function update($id, ProfileUpdateRequest $request): RedirectResponse
+    {
+        DB::table('users')
+            ->where('id', $id)
+            ->update([
+                'name' => $request->name,
+                'email' => $request->email,
+            ]);
+
+        DB::table('university_mentor')
+            ->where('user_id', $id)
+            ->update([
+                'mobile' => $request->mobile,
+                'university' => $request->university,
+            ]);
+
+        return Redirect::route('admin.university.index')->with('status', 'university-updated');
     }
 }

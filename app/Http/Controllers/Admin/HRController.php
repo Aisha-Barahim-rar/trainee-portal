@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\ProfileUpdateRequest;
 
 class HRController extends Controller
 {
@@ -93,5 +94,47 @@ class HRController extends Controller
         DB::table('users')->delete($user_id->user_id);
 
         return Redirect::route('admin.hr.index')->with('status', 'hr-deleted');
+    }
+
+    public function view($id,Request $request): View
+    {
+        $hr_admins = DB::table('users')
+        ->join('hr_admin', 'users.ID', '=', 'hr_admin.user_id')
+        ->select('hr_admin.*', 'users.email', 'users.name')
+        ->where('hr_admin.ID',$id)
+        ->get();
+        return view('admin.hr.view', [
+            'hr_admins' => $hr_admins,
+        ]);
+    }
+
+    public function edit($id, Request $request): View
+    {
+        $hr_admins = DB::table('users')
+            ->join('hr_admin', 'users.ID', '=', 'hr_admin.user_id')
+            ->select('hr_admin.*', 'users.email', 'users.name')
+            ->where('hr_admin.ID', $id)
+            ->get();
+        return view('admin.hr.edit', [
+            'hr_admin' => $hr_admins[0],
+        ]);
+    }
+
+    public function update($id, ProfileUpdateRequest $request): RedirectResponse
+    {
+        DB::table('users')
+            ->where('id', $id)
+            ->update([
+                'name' => $request->name,
+                'email' => $request->email,
+            ]);
+
+        DB::table('hr_admin')
+            ->where('user_id', $id)
+            ->update([
+                'mobile' => $request->mobile,
+            ]);
+
+        return Redirect::route('admin.hr.index')->with('status', 'hr-updated');
     }
 }

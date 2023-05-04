@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\RedirectResponse;
-
+use App\Http\Requests\ProfileUpdateRequest;
 class CompanyController extends Controller
 {
     //
@@ -123,5 +123,48 @@ class CompanyController extends Controller
         } catch (\Exception $ex) {
             return Redirect::route('admin.dashboard');
         }
+    }
+
+    public function view($id, Request $request): View
+    {
+        $company_mentors = DB::table('users')
+            ->join('company_mentor', 'users.ID', '=', 'company_mentor.user_id')
+            ->select('company_mentor.*', 'users.email', 'users.name')
+            ->where('company_mentor.ID', $id)
+            ->get();
+        return view('admin.company.view', [
+            'company_mentors' => $company_mentors,
+        ]);
+    }
+
+    public function edit($id, Request $request): View
+    {
+        $company_mentors = DB::table('users')
+            ->join('company_mentor', 'users.ID', '=', 'company_mentor.user_id')
+            ->select('company_mentor.*', 'users.email', 'users.name')
+            ->where('company_mentor.ID', $id)
+            ->get();
+        return view('admin.company.edit', [
+            'company_mentor' => $company_mentors[0],
+        ]);
+    }
+
+    public function update($id, ProfileUpdateRequest $request): RedirectResponse
+    {
+        DB::table('users')
+            ->where('id', $id)
+            ->update([
+                'name' => $request->name,
+                'email' => $request->email,
+            ]);
+
+        DB::table('company_mentor')
+            ->where('user_id', $id)
+            ->update([
+                'mobile' => $request->mobile,
+                'department' => $request->department,
+            ]);
+
+        return Redirect::route('admin.company.index')->with('status', 'company-updated');
     }
 }

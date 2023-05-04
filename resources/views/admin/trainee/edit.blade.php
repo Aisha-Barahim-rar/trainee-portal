@@ -8,10 +8,10 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    {{ __('Add New Trainee') }}
-                    <form method="POST" action="{{ route('admin.trainees.store') }}">
+                    {{ __('Update Trainee\'s Information') }}
+                    <form method="POST" action="{{ route('admin.trainees.update', $student->user_id) }}">
                         @csrf
-@method('patch')
+
                         <div class="grid gap-6 mt-6">
                             <!-- Name -->
                             <div class="space-y-2">
@@ -23,8 +23,22 @@
                                     </x-slot>
 
                                     <x-form.input withicon id="name" class="block w-full" type="text"
-                                        name="name" :value="old('name')" required autofocus
+                                        name="name" :value="old('name', $student->name)" required autofocus
                                         placeholder="{{ __('Name') }}" />
+                                </x-form.input-with-icon-wrapper>
+                            </div>
+
+                            <!-- Mobile Address -->
+                            <div class="space-y-2">
+                                <x-form.label for="mobile" :value="__('Mobile')" />
+
+                                <x-form.input-with-icon-wrapper>
+                                    <x-slot name="icon">
+                                        <x-heroicon-o-phone aria-hidden="true" class="w-5 h-5" />
+                                    </x-slot>
+
+                                    <x-form.input withicon id="mobile" class="block w-full" type="text"
+                                        name="mobile" :value="old('mobile', $student->mobile)" placeholder="{{ __('Mobile') }}" />
                                 </x-form.input-with-icon-wrapper>
                             </div>
 
@@ -38,63 +52,56 @@
                                     </x-slot>
 
                                     <x-form.input withicon id="email" class="block w-full" type="email"
-                                        name="email" :value="old('email')" required placeholder="{{ __('Email') }}" />
+                                        name="email" :value="old('email', $student->email)" required placeholder="{{ __('Email') }}" />
                                 </x-form.input-with-icon-wrapper>
                             </div>
 
-                            <!-- Role Address -->
+                            <!-- Academic ID -->
                             <div class="space-y-2">
-                                <x-form.label for="role" :value="__('Role')" />
+                                <x-form.label for="academic" :value="__('Academic ID')" />
 
                                 <x-form.input-with-icon-wrapper>
                                     <x-slot name="icon">
-                                        <x-heroicon-o-user aria-hidden="true" class="w-5 h-5" />
+                                        <x-heroicon-o-identification aria-hidden="true" class="w-5 h-5" />
                                     </x-slot>
 
-                                    <x-form.select withicon id="select" class="block w-full" name="role">
-                                        <option value="admin">Super Admin</option>
-                                        <option value="hr">HR Admin</option>
-                                        <option value="company">Company Mentor</option>
-                                        <option value="university">University Mentor</option>
-                                        <option value="student" selected>Student</option>
-                                    </x-form.select>
+                                    <x-form.input withicon id="academic" class="block w-full" type="text"
+                                        name="academic" :value="old('academic', $student->academic_id)" placeholder="{{ __('Academic ID') }}" />
                                 </x-form.input-with-icon-wrapper>
                             </div>
 
-                            <!-- Password -->
+                            <!-- University -->
                             <div class="space-y-2">
-                                <x-form.label for="password" :value="__('Password')" />
+                                <x-form.label for="university" :value="__('University')" />
 
                                 <x-form.input-with-icon-wrapper>
                                     <x-slot name="icon">
-                                        <x-heroicon-o-lock-closed aria-hidden="true" class="w-5 h-5" />
+                                        <x-heroicon-o-academic-cap aria-hidden="true" class="w-5 h-5" />
                                     </x-slot>
 
-                                    <x-form.input withicon id="password" class="block w-full" type="password"
-                                        name="password" required autocomplete="new-password"
-                                        placeholder="{{ __('Password') }}" />
+                                    <x-form.input withicon id="university" class="block w-full" type="text"
+                                        name="university" :value="old('university', $student->university)" placeholder="{{ __('University') }}" />
                                 </x-form.input-with-icon-wrapper>
                             </div>
 
-                            <!-- Confirm Password -->
+                            <!-- Major -->
                             <div class="space-y-2">
-                                <x-form.label for="password_confirmation" :value="__('Confirm Password')" />
+                                <x-form.label for="major" :value="__('Major')" />
 
                                 <x-form.input-with-icon-wrapper>
                                     <x-slot name="icon">
-                                        <x-heroicon-o-lock-closed aria-hidden="true" class="w-5 h-5" />
+                                        <x-heroicon-o-book-open aria-hidden="true" class="w-5 h-5" />
                                     </x-slot>
 
-                                    <x-form.input withicon id="password_confirmation" class="block w-full"
-                                        type="password" name="password_confirmation" required
-                                        placeholder="{{ __('Confirm Password') }}" />
+                                    <x-form.input withicon id="major" class="block w-full" type="text"
+                                        name="major" :value="old('major', $student->major)" placeholder="{{ __('Major') }}" />
                                 </x-form.input-with-icon-wrapper>
                             </div>
+                            <input id="user_id" name="user_id" type="hidden" value={{ $student->user_id }} />
 
                             <div class="flex justify-end sm:flex-col sm:items-end mt-6">
                                 <div>
-                                    <x-button :variant="'primary'" items-end size="base"
-                                        >
+                                    <x-button :variant="'primary'" items-end size="base">
                                         <span>{{ __('Save') }}</span>
                                     </x-button>
                                 </div>

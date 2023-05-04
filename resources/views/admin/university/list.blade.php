@@ -28,6 +28,12 @@
                             {{ __('Trainees list has been updated successfully.') }}
                         </p>
                     @endif
+                    @if (session('status') === 'university-updated')
+                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 4000)"
+                            class="text-sm mt-2 mb-6 font-medium text-green-600">
+                            {{ __('University mentor has been updated successfully.') }}
+                        </p>
+                    @endif
                     {{ __('University Mentors List') }}
                     <ul role="list" class="divide-y divide-gray-100 mt-6">
                         @foreach ($university_mentors as $university_mentor)
@@ -46,14 +52,14 @@
                                     <p class="mt-1 text-xs leading-5 text-gray-500">
                                     </p>
                                     <div class="inline-flex rounded-md shadow-sm" role="group">
-                                        <button type="button"
-                                            class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-l-md hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+                                        <x-button variant="secondary" href="{{ route('admin.university.view',$university_mentor->ID) }}" 
+                                            :squared=true class="rounded-l-md border-t border-b border-r">
                                             <x-heroicon-o-eye class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
-                                        </button>
-                                        <button type="button"
-                                            class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-r border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+                                        </x-button>
+                                        <x-button variant="secondary" href="{{ route('admin.university.edit',$university_mentor->ID) }}" 
+                                            :squared=true class="border-t border-b border-r">
                                             <x-heroicon-o-pencil-alt class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
-                                        </button>
+                                        </x-button>
                                         <x-button variant="secondary" x-data=""
                                             x-on:click.prevent="$dispatch('open-modal', 'confirm-university-trainee-add-{{ $university_mentor->ID }}')"
                                             :squared=true class="border-t border-b border-gray-200 hover:bg-gray-100">
