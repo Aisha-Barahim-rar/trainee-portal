@@ -35,7 +35,7 @@
 
 
         @foreach ($students as $student)
-            <x-sidebar.sublink title="{{ $student->name }}" href="{{ route('buttons.text') }}" :active="request()->routeIs('buttons.text')" />
+            <x-sidebar.sublink title="{{ $student->name }}" href="{{ route('company.attendance.index',$student->ID) }}" :active="request()->routeIs('buttons.text')" />
         @endforeach
 
     </x-sidebar.dropdown>

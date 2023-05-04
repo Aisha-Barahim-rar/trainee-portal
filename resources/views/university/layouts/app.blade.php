@@ -48,7 +48,7 @@
             >
 
                 <!-- Navbar -->
-                <x-navbar />
+                <x-university.navbar />
 
                 <!-- Page Heading -->
                 <header>

@@ -77,7 +77,7 @@ class TraineesController extends Controller
             $student = DB::table('student')->insert([
                 'user_id' => $user->id,
             ]);
-            return Redirect::route('admin.trainees.store')->with('status', 'trainee-created');
+            return Redirect::route('admin.trainees.index')->with('status', 'trainee-created');
         }elseif($user->role=="hr"){
             $hr_admin = DB::table('hr_admin')->insert([
                 'user_id' => $user->id,

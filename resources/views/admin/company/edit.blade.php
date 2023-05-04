@@ -9,6 +9,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     {{ __('Update Company Mentor\'s Information') }}
+                    <x-auth-validation-errors class="mb-4" :errors="$errors" />
                     <form method="POST" action="{{ route('admin.company.update', $company_mentor->user_id) }}">
                         @csrf
 

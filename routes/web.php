@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\Student;
 use App\Http\Controllers\Company;
+use App\Http\Controllers\University;
+use App\Http\Controllers\HR;
 
 use Illuminate\Support\Facades\DB;
 /*
@@ -88,10 +90,34 @@ Route::middleware('auth')->group(function () {
         Route::delete('/student/profile', 'destroy')->name('student.profile.destroy');
     });
 
+    Route::controller(Student\AttendanceController::class)->group(function () {
+        Route::get('/trainee/{id}/attendance/', 'index')->name('student.attendance.index');
+        Route::get('/trainee/{id}/attendance/create', 'create')->name('student.attendance.insert');
+        Route::patch('/trainee/{id}/attendance/create', 'store')->name('student.attendance.store');
+    });
+
+    Route::controller(Company\AttendanceController::class)->group(function () {
+        Route::get('/trainee/{id}/attendance/', 'index')->name('company.attendance.index');
+        Route::get('/trainee/{id}/attendance/create', 'create')->name('company.attendance.insert');
+        Route::patch('/trainee/{id}/attendance/create', 'store')->name('company.attendance.store');
+    });
+
     Route::controller(Company\ProfileController::class)->group(function () {
         Route::get('/company_mentor/profile', 'edit')->name('company.profile.edit');
         Route::patch('/company_mentor/profile', 'update')->name('company.profile.update');
         Route::delete('/company_mentor/profile', 'destroy')->name('company.profile.destroy');
+    });
+
+    Route::controller(University\ProfileController::class)->group(function () {
+        Route::get('/university_mentor/profile', 'edit')->name('university.profile.edit');
+        Route::patch('/university_mentor/profile', 'update')->name('university.profile.update');
+        Route::delete('/university_mentor/profile', 'destroy')->name('university.profile.destroy');
+    });
+
+    Route::controller(HR\ProfileController::class)->group(function () {
+        Route::get('/hr/profile', 'edit')->name('hr.profile.edit');
+        Route::patch('/hr/profile', 'update')->name('hr.profile.update');
+        Route::delete('/hr/profile', 'destroy')->name('hr.profile.destroy');
     });
 
     Route::controller(Admin\TraineesController::class)->group(function () {

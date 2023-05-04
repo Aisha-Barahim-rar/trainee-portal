@@ -33,7 +33,7 @@
 
                     <ul role="list" class="divide-y divide-gray-100 mt-6">
                         @foreach ($students as $student)
-                            <li class="flex justify-between gap-x-6 py-5">
+                            <li class="flex justify-between gap-x-6 py-5 mb-4">
                                 <div class="flex gap-x-4">
                                     <div class="min-w-0 flex-auto">
                                         <p class="text-sm font-semibold leading-6 text-gray-900">{{ $student->name }}

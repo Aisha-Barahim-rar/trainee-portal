@@ -48,7 +48,7 @@
             >
 
                 <!-- Navbar -->
-                <x-navbar />
+                <x-hr.navbar />
 
                 <!-- Page Heading -->
                 <header>
