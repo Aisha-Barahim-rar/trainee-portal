@@ -19,7 +19,7 @@
 
     <x-sidebar.link title="Attendance" href="{{ route('student.attendance.index') }}" :isActive="request()->routeIs('student.attendance.index')" />
     <x-sidebar.link title="Reports" href="#" />
-    <x-sidebar.link title="Important Links" href="#" />
+    <x-sidebar.link title="Important Links" href="{{ route('student.links.index') }}" :isActive="request()->routeIs('student.links.index')"  />
   
 
 </x-perfect-scrollbar>

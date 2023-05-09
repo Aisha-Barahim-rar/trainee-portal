@@ -33,50 +33,36 @@ class AttendanceController extends Controller
         ]);
     }
 
-    /**
-     * Update the user's profile information.
-     */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function edit($id,Request $request): View
     {
-        $request->user()->fill($request->validated());
+        $attendance = DB::table('attendance')
+        ->find($id);
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
-
-        $request->user()->save();
-        // add all data
-        DB::table('student')
-        ->where('user_id', Auth::user()->id)
-        ->update([
-            'mobile' => $request->mobile,
-            'academic_id' => $request->academic_id,
-            'university' => $request->university,
-            'major' => $request->major
-    ]);
-
-        return Redirect::route('student.profile.edit')->with('status', 'profile-updated');
+        $user = DB::table('users')
+        ->join('student', 'users.ID', '=', 'student.user_id')
+        ->select('student.*', 'users.email', 'users.name')
+        ->where('student.ID',$attendance->student_id)
+        ->get();
+        return view('company.attendance.edit', [
+            'attendance' => $attendance,
+            'user' => $user[0],
+        ]);
     }
 
-    /**
-     * Delete the user's account.
-     */
-    public function destroy(Request $request): RedirectResponse
+    public function update($id,Request $request): RedirectResponse
     {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
+        DB::table('attendance')
+        ->where('ID', $id)
+        ->update([
+            'date' => $request->date,
+            'attendance' => $request->timein,
+            'departure' => $request->timeout
+    ]);
 
-        $user = $request->user();
+    $attendance = DB::table('attendance')
+        ->find($id);
 
-        Auth::logout();
-
-        $user->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
+        return Redirect::route('company.attendance.index',[$attendance->student_id])->with('status', 'attendance-updated');
     }
 
     public function create($id): View
@@ -84,10 +70,31 @@ class AttendanceController extends Controller
         $user = DB::table('student')
         ->where('student.ID','=',$id)
         ->join('users', 'users.id', '=', 'student.user_id')
-        ->select('student.*', 'users.*')
+        ->select('student.*', 'users.email','users.name')
         ->get();
         return view('company.attendance.insert',[
             'user' => $user[0],
         ]);
+    }
+
+    public function store($id,Request $request): RedirectResponse
+    {
+
+
+        $attendance = DB::table('attendance')->insert([
+            'date' => $request->date,
+            'attendance' => $request->timein,
+            'departure' => $request->timeout,
+            'student_id' => $id,
+        ]);
+
+        return Redirect::route('company.attendance.index',[$id])->with('status', 'attendance-created');
+    }
+
+    public function destroy($id,Request $request): RedirectResponse
+    {
+        DB::table('attendance')
+       ->where('student_id','=',$id)->delete();
+        return Redirect::route('company.attendance.index',[$id])->with('status', 'attendance-deleted');
     }
 }

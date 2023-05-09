@@ -14,17 +14,17 @@ class AttendanceController extends Controller
     /**
      * Display the user's profile form.
      */
-    public function index($id,Request $request): View
+    public function index(Request $request): View
     {
         //get full user
-        $attendance = DB::table('attendance')
-        ->where('student_id','=',$id)
+        $user = DB::table('users')
+        ->join('student', 'users.ID', '=', 'student.user_id')
+        ->select('student.*', 'users.email', 'users.name')
+        ->where('users.id',Auth::user()->id)
         ->get();
 
-        $user = DB::table('student')
-        ->where('student.ID','=',$id)
-        ->join('users', 'users.id', '=', 'student.user_id')
-        ->select('student.*', 'users.*')
+        $attendance = DB::table('attendance')
+        ->where('student_id','=',$user[0]->ID)
         ->get();
 
         return view('student.attendance.view', [

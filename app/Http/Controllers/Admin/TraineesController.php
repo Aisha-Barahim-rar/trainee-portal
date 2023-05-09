@@ -37,7 +37,6 @@ class TraineesController extends Controller
 
     public function view($id,Request $request): View
     {
-        // make conditions
         $students = DB::table('users')
         ->join('student', 'users.ID', '=', 'student.user_id')
         ->select('student.*', 'users.email', 'users.name')

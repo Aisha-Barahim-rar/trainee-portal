@@ -11,9 +11,8 @@
                 <div class="p-6 text-gray-900">
                     {{ $user->name }}
 
-<form method="POST" action="{{ route('company.attendance.store',$user->ID) }}">
+<form method="POST" action="{{ route('company.attendance.update', $attendance->ID) }}">
                         @csrf
-                        @method('patch')
                         <div class="grid gap-6 mt-6">
                             <!-- date -->
                             <div class="space-y-2">
@@ -25,7 +24,7 @@
                                     </x-slot>
 
                                     <x-form.input withicon id="date" class="block w-full" type="date"
-                                        name="date" :value="old('date')" required autofocus
+                                        name="date" :value="old('date',$attendance->date)" required autofocus
                                         placeholder="{{ __('Date') }}" />
                                 </x-form.input-with-icon-wrapper>
                             </div>
@@ -40,7 +39,7 @@
                                     </x-slot>
 
                                     <x-form.input withicon id="timein" class="block w-full" type="time"
-                                        name="timein" :value="old('timein')" required placeholder="{{ __('Time In') }}" />
+                                        name="timein" :value="old('timein', $attendance->attendance)" required placeholder="{{ __('Time In') }}" />
                                 </x-form.input-with-icon-wrapper>
                             </div>
 
@@ -54,7 +53,7 @@
                                     </x-slot>
 
                                     <x-form.input withicon id="timeout" class="block w-full" type="time"
-                                        name="timeout" :value="old('timeout')" required placeholder="{{ __('Time Out') }}" />
+                                        name="timeout" :value="old('timeout', $attendance->departure)" required placeholder="{{ __('Time Out') }}" />
                                 </x-form.input-with-icon-wrapper>
                             </div>
 

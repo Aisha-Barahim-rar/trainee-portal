@@ -23,11 +23,11 @@
     </x-sidebar.dropdown>
 
 
-    <x-sidebar.dropdown title="Attendance" :active="Str::startsWith(
+    <x-sidebar.dropdown title="Attendance" :active="Str::contains(
         request()
             ->route()
             ->uri(),
-        'buttons',
+        'attendance',
     )">
         <x-slot name="icon">
             <x-heroicon-o-clipboard-check class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
@@ -35,7 +35,7 @@
 
 
         @foreach ($students as $student)
-            <x-sidebar.sublink title="{{ $student->name }}" href="{{ route('company.attendance.index',$student->ID) }}" :active="request()->routeIs('buttons.text')" />
+            <x-sidebar.sublink title="{{ $student->name }}" href="{{ route('company.attendance.index',$student->ID) }}" :active="request()->routeIs('company.attendance.index',$student->ID)" />
         @endforeach
 
     </x-sidebar.dropdown>
@@ -69,7 +69,7 @@
 
 
         @foreach ($students as $student)
-            <x-sidebar.sublink title="{{ $student->name }}" href="{{ route('buttons.text') }}" :active="request()->routeIs('buttons.text')" />
+            <x-sidebar.sublink title="{{ $student->name }}" href="{{ route('company.links.index',$student->ID) }}" :active="request()->routeIs('buttons.text')" />
         @endforeach
 
     </x-sidebar.dropdown>
@@ -88,6 +88,23 @@
 
         @foreach ($students as $student)
             <x-sidebar.sublink title="{{ $student->name }}" href="{{ route('buttons.text') }}" :active="request()->routeIs('buttons.text')" />
+        @endforeach
+
+    </x-sidebar.dropdown>
+
+        <x-sidebar.dropdown title="HR Evaluation" :active="Str::contains(
+        request()
+            ->route()
+            ->uri(),
+        'HREvaluation',
+    )">
+        <x-slot name="icon">
+            <x-heroicon-o-clipboard-check class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
+        </x-slot>
+
+
+        @foreach ($students as $student)
+            <x-sidebar.sublink title="{{ $student->name }}" href="{{ route('hr.evaluation.index',$student->ID) }}" :active="request()->routeIs('hr.evaluation.index',$student->ID)" />
         @endforeach
 
     </x-sidebar.dropdown>
