@@ -6,18 +6,18 @@
         </x-slot>
     </x-sidebar.link>
 
-    <x-sidebar.dropdown title="Training Plan" :active="Str::startsWith(
+    <x-sidebar.dropdown title="Training Plan" :active="Str::contains(
         request()
             ->route()
             ->uri(),
-        'buttons',
+        'plan',
     )">
         <x-slot name="icon">
             <x-heroicon-o-table class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
 
         @foreach ($students as $student)
-            <x-sidebar.sublink title="{{ $student->name }}" href="{{ route('buttons.text') }}" :active="request()->routeIs('buttons.text')" />
+            <x-sidebar.sublink title="{{ $student->name }}" href="{{ route('company.plan.index',$student->ID) }}" :active="request()->routeIs('company.plan.index',$student->ID)" />
         @endforeach
 
     </x-sidebar.dropdown>
@@ -40,7 +40,7 @@
 
     </x-sidebar.dropdown>
 
-    <x-sidebar.dropdown title="Reports" :active="Str::startsWith(
+    <x-sidebar.dropdown title="Reports" :active="Str::contains(
         request()
             ->route()
             ->uri(),
@@ -57,11 +57,11 @@
 
     </x-sidebar.dropdown>
 
-        <x-sidebar.dropdown title="Important Links" :active="Str::startsWith(
+        <x-sidebar.dropdown title="Important Links" :active="Str::contains(
         request()
             ->route()
             ->uri(),
-        'buttons',
+        'link',
     )">
         <x-slot name="icon">
             <x-heroicon-o-link class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
@@ -69,7 +69,7 @@
 
 
         @foreach ($students as $student)
-            <x-sidebar.sublink title="{{ $student->name }}" href="{{ route('company.links.index',$student->ID) }}" :active="request()->routeIs('buttons.text')" />
+            <x-sidebar.sublink title="{{ $student->name }}" href="{{ route('company.links.index',$student->ID) }}" :active="request()->routeIs('company.links.index',$student->ID)" />
         @endforeach
 
     </x-sidebar.dropdown>

@@ -98,6 +98,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/trainee/links/', 'index')->name('student.links.index');
     });
 
+    Route::controller(Student\PlanController::class)->group(function () {
+        Route::get('/trainee/plan/', 'index')->name('student.plan.index');
+    });
+
     Route::controller(Company\AttendanceController::class)->group(function () {
         Route::get('/trainee/{id}/attendance/', 'index')->name('company.attendance.index');
         Route::get('/trainee/{id}/attendance/create', 'create')->name('company.attendance.insert');
@@ -114,6 +118,15 @@ Route::middleware('auth')->group(function () {
       Route::delete('/trainee/{id}/links/', 'destroy')->name('company.links.destroy');
          Route::get('/trainee/links/edit/{id}/{std}', 'edit')->name('company.links.edit');
         Route::post('/trainee/links/update/{id}', 'update')->name('company.links.update');
+    });
+
+    Route::controller(Company\PlanController::class)->group(function () {
+        Route::get('/trainee/{id}/plan/', 'index')->name('company.plan.index');
+          Route::get('/trainee/{id}/plan/create', 'create')->name('company.plan.insert');
+        Route::post('/trainee/{id}/plan/create', 'store')->name('company.plan.store');
+    Route::delete('/trainee/{id}/plan/', 'destroy')->name('company.plan.destroy');
+    /*       Route::get('/trainee/links/edit/{id}/{std}', 'edit')->name('company.links.edit');
+        Route::post('/trainee/links/update/{id}', 'update')->name('company.links.update'); */
     });
 
     Route::controller(Company\HREvaluationController::class)->group(function () {

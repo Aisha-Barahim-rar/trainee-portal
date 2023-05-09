@@ -24,11 +24,12 @@ class Evaluation extends Component
     {
         unset($this->inputs[$i-2]);
         $this->mount();
-$this->render();
+        $this->render();
     }
 
     public function render()
     {
+        #dd($this->inputs);
         $this->evaluation = DB::table('company_evaluation')
         ->leftJoin('practical_evaluation', 'practical_evaluation.companye_id', '=', 'company_evaluation.ID')
         ->where('company_evaluation.student_id','=',$this->id)
