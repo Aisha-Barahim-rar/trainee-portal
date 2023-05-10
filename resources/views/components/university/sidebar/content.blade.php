@@ -6,28 +6,28 @@
         </x-slot>
     </x-sidebar.link>
 
-    <x-sidebar.dropdown title="Training Plan" :active="Str::startsWith(
+    <x-sidebar.dropdown title="Training Plan" :active="Str::contains(
         request()
             ->route()
             ->uri(),
-        'buttons',
+        'plan',
     )">
         <x-slot name="icon">
             <x-heroicon-o-table class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
 
         @foreach ($students as $student)
-            <x-sidebar.sublink title="{{ $student->name }}" href="{{ route('buttons.text') }}" :active="request()->routeIs('buttons.text')" />
+            <x-sidebar.sublink title="{{ $student->name }}" href="{{ route('university.plan.index',$student->ID) }}" :active="request()->routeIs('university.plan.index',$student->ID)" />
         @endforeach
 
     </x-sidebar.dropdown>
 
 
-    <x-sidebar.dropdown title="Attendance" :active="Str::startsWith(
+    <x-sidebar.dropdown title="Attendance" :active="Str::contains(
         request()
             ->route()
             ->uri(),
-        'buttons',
+        'attendance',
     )">
         <x-slot name="icon">
             <x-heroicon-o-clipboard-check class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
@@ -35,16 +35,16 @@
 
 
         @foreach ($students as $student)
-            <x-sidebar.sublink title="{{ $student->name }}" href="{{ route('buttons.text') }}" :active="request()->routeIs('buttons.text')" />
+            <x-sidebar.sublink title="{{ $student->name }}" href="{{ route('university.attendance.index',$student->ID) }}" :active="request()->routeIs('university.attendance.index',$student->ID)" />
         @endforeach
 
     </x-sidebar.dropdown>
 
-    <x-sidebar.dropdown title="Reports" :active="Str::startsWith(
+    <x-sidebar.dropdown title="Reports" :active="Str::contains(
         request()
             ->route()
             ->uri(),
-        'buttons',
+        'report',
     )">
         <x-slot name="icon">
             <x-heroicon-o-document-report class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
@@ -52,16 +52,16 @@
 
 
         @foreach ($students as $student)
-            <x-sidebar.sublink title="{{ $student->name }}" href="{{ route('buttons.text') }}" :active="request()->routeIs('buttons.text')" />
+            <x-sidebar.sublink title="{{ $student->name }}" href="{{ route('university.report.index',$student->ID) }}" :active="request()->routeIs('university.report.index',$student->ID)" />
         @endforeach
 
     </x-sidebar.dropdown>
 
-        <x-sidebar.dropdown title="Important Links" :active="Str::startsWith(
+        <x-sidebar.dropdown title="Important Links" :active="Str::contains(
         request()
             ->route()
             ->uri(),
-        'buttons',
+        'link',
     )">
         <x-slot name="icon">
             <x-heroicon-o-link class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
@@ -69,7 +69,7 @@
 
 
         @foreach ($students as $student)
-            <x-sidebar.sublink title="{{ $student->name }}" href="{{ route('buttons.text') }}" :active="request()->routeIs('buttons.text')" />
+            <x-sidebar.sublink title="{{ $student->name }}" href="{{ route('university.links.index',$student->ID) }}" :active="request()->routeIs('university.links.index',$student->ID)" />
         @endforeach
 
     </x-sidebar.dropdown>
@@ -87,7 +87,7 @@
 
 
         @foreach ($students as $student)
-            <x-sidebar.sublink title="{{ $student->name }}" href="{{ route('buttons.text') }}" :active="request()->routeIs('buttons.text')" />
+            <x-sidebar.sublink title="{{ $student->name }}" href="{{ route('university.evaluation.index',$student->ID) }}" :active="request()->routeIs('university.evaluation.index',$student->ID)" />
         @endforeach
 
     </x-sidebar.dropdown>

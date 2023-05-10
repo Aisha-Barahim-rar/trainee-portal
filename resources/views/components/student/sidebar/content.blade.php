@@ -18,7 +18,7 @@
     <x-sidebar.link title="Training Plan" href="{{ route('student.plan.index') }}" :isActive="request()->routeIs('student.plan.index')" />
 
     <x-sidebar.link title="Attendance" href="{{ route('student.attendance.index') }}" :isActive="request()->routeIs('student.attendance.index')" />
-    <x-sidebar.link title="Reports" href="#" />
+    <x-sidebar.link title="Reports" href="{{ route('student.report.index') }}" :isActive="request()->routeIs('student.report.index')" />
     <x-sidebar.link title="Important Links" href="{{ route('student.links.index') }}" :isActive="request()->routeIs('student.links.index')"  />
   
 

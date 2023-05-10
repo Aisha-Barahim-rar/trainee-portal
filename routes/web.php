@@ -102,6 +102,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/trainee/plan/', 'index')->name('student.plan.index');
     });
 
+    Route::controller(HR\AttendanceController::class)->group(function () {
+        Route::get('/hr/trainee/{id}/attendance/', 'index')->name('hr.attendance.index');
+    });
+
+    Route::controller(University\AttendanceController::class)->group(function () {
+        Route::get('/university/trainee/{id}/attendance/', 'index')->name('university.attendance.index');
+    });
+
     Route::controller(Company\AttendanceController::class)->group(function () {
         Route::get('/trainee/{id}/attendance/', 'index')->name('company.attendance.index');
         Route::get('/trainee/{id}/attendance/create', 'create')->name('company.attendance.insert');
@@ -125,15 +133,57 @@ Route::middleware('auth')->group(function () {
           Route::get('/trainee/{id}/plan/create', 'create')->name('company.plan.insert');
         Route::post('/trainee/{id}/plan/create', 'store')->name('company.plan.store');
     Route::delete('/trainee/{id}/plan/', 'destroy')->name('company.plan.destroy');
-    /*       Route::get('/trainee/links/edit/{id}/{std}', 'edit')->name('company.links.edit');
-        Route::post('/trainee/links/update/{id}', 'update')->name('company.links.update'); */
     });
+
+    Route::controller(University\PlanController::class)->group(function () {
+        Route::get('/university/{id}/plan/', 'index')->name('university.plan.index');
+    });
+
+    Route::controller(Company\EvaluationController::class)->group(function () {
+        Route::get('/company/{id}/evaluation/', 'index')->name('company.evaluation.index');
+          Route::get('/company/{id}/evaluation/create', 'create')->name('company.evaluation.insert');
+        Route::post('/company/{id}/evaluation/create', 'store')->name('company.evaluation.store');
+    Route::delete('/company/{id}/evaluation/', 'destroy')->name('company.evaluation.destroy');
+    });
+
+    Route::controller(University\EvaluationController::class)->group(function () {
+        Route::get('/university/{id}/evaluation/', 'index')->name('university.evaluation.index');
+    });
+
+    Route::controller(Student\ReportController::class)->group(function () {
+        Route::get('/trainee/report/', 'index')->name('student.report.index');
+          Route::get('/trainee/{id}/report/create', 'create')->name('student.report.insert');
+        Route::post('/trainee/{id}/report/create', 'store')->name('student.report.store');
+    Route::delete('/trainee/{id}/report/', 'destroy')->name('student.report.destroy');
+    Route::get('/trainee/report/edit/{id}/{std}', 'edit')->name('student.report.edit');
+        Route::post('/trainee/report/update/{id}', 'update')->name('student.report.update');
+    });
+
+    Route::controller(University\ReportController::class)->group(function () {
+        Route::get('/university/{id}/report/', 'index')->name('university.report.index');
+    });
+
+    Route::controller(University\LinkController::class)->group(function () {
+        Route::get('/university/{id}/links/', 'index')->name('university.links.index');
+    });
+
+    Route::controller(Company\ReportController::class)->group(function () {
+        Route::get('/company/{id}/report/', 'index')->name('company.report.index');
+    Route::get('/company/report/edit/{id}/{std}', 'edit')->name('company.report.edit');
+        Route::post('/company/report/update/{id}', 'update')->name('company.report.update');
+    });
+
+    Route::controller(HR\PlanController::class)->group(function () {
+        Route::get('/hr/trainee/{id}/plan/', 'index')->name('hr.plan.index');
+    });
+
+
 
     Route::controller(Company\HREvaluationController::class)->group(function () {
         Route::get('/hr/{id}/evaluation/', 'index')->name('hr.evaluation.index');
-/*         Route::get('/trainee/{id}/attendance/create', 'create')->name('company.attendance.insert');
-        Route::patch('/trainee/{id}/attendance/create', 'store')->name('company.attendance.store');
-        Route::delete('/trainee/{id}/attendance/', 'destroy')->name('company.attendance.destroy');
+         # Route::get('/hr/{id}/attendance/create', 'create')->name('hr.evaluation.insert');
+        Route::post('/hr/{id}/attendance/create', 'store')->name('hr.evaluation.store');
+  /*      Route::delete('/trainee/{id}/attendance/', 'destroy')->name('company.attendance.destroy');
         Route::get('/trainee/attendance/edit/{id}', 'edit')->name('company.attendance.edit');
         Route::post('/trainee/attendance/update/{id}', 'update')->name('company.attendance.update'); */
     });
