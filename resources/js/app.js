@@ -74,14 +74,44 @@ const getTheme=()=> {
 
         window.addEventListener("DOMContentLoaded", (e) => {
 
+            totalCalc(1);
             function myFunction(i) {
                 var button_id = document.getElementById(i).getAttribute('id');
-
                 document.querySelector('#row' + button_id + '').remove();
             }
             
+if(document.getElementById("add")){
+    document.getElementById("add").onclick = function() {myFunction2()};
+}
+            
 
-            document.getElementById("add").onclick = function() {myFunction2()};
+            var times = 10;
+
+            for(var i = 0; i < times; i++){
+                if(document.getElementById("select"+i)){
+                    document.getElementById("select"+i).onchange = function() {totalCalc(i)};
+                }
+            }
+
+            function totalCalc(i) {
+                var score = document.getElementsByClassName("score");
+                if(score.length>0){
+                    var sum = 0;
+                    for(var i=0;i<score.length;i++){
+                        if(score[i].value!=''){
+                            sum+=parseInt(score[i].value);
+                        }
+                        
+                    }
+                    document.getElementById("total_score").value = sum;
+                    document.getElementById("total").textContent = sum;
+    
+                    document.getElementById("percentage").value = Math.round((sum/50)*100);
+                    document.getElementById("percentage1").textContent = Math.round((sum/50)*100);
+                }
+
+            }
+            
 
             function myFunction2() {
                 var table = document.getElementById("dynamic_field");
@@ -96,13 +126,13 @@ const getTheme=()=> {
                             autofocus autocomplete="topic" />
                     </td>
                     <td class="px-2 py-2 border border-slate-300">
-                        <input id="start_date" name="practical_evaluation[${i}][1]" type="text" class="px-2 py-2 border-gray-400 rounded-md focus:border-gray-400 focus:ring
+                        <input id="start_date" name="practical_evaluation[${i}][1]" type="date" class="px-2 py-2 border-gray-400 rounded-md focus:border-gray-400 focus:ring
                         focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-white dark:border-gray-600 dark:bg-dark-eval-1
                         dark:text-gray-300 dark:focus:ring-offset-dark-eval-1 block w-full"
                             autofocus autocomplete="start_date" />
                     </td>
                     <td class="px-2 py-2 border border-slate-300">
-                        <input id="end_date" name="practical_evaluation[${i}][2]" type="text" class="px-2 py-2 border-gray-400 rounded-md focus:border-gray-400 focus:ring
+                        <input id="end_date" name="practical_evaluation[${i}][2]" type="date" class="px-2 py-2 border-gray-400 rounded-md focus:border-gray-400 focus:ring
                         focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-white dark:border-gray-600 dark:bg-dark-eval-1
                         dark:text-gray-300 dark:focus:ring-offset-dark-eval-1 block w-full"
                             autofocus autocomplete="end_date" />

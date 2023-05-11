@@ -6,11 +6,11 @@
         </x-slot>
     </x-sidebar.link>
 
-    <x-sidebar.dropdown title="Training Plan" :active="Str::startsWith(
+    <x-sidebar.dropdown title="Training Plan" :active="Str::contains(
         request()
             ->route()
             ->uri(),
-        'buttons',
+        'plan',
     )">
         <x-slot name="icon">
             <x-heroicon-o-table class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
@@ -23,11 +23,11 @@
     </x-sidebar.dropdown>
 
 
-    <x-sidebar.dropdown title="Attendance" :active="Str::startsWith(
+    <x-sidebar.dropdown title="Attendance" :active="Str::contains(
         request()
             ->route()
             ->uri(),
-        'buttons',
+        'attendance',
     )">
         <x-slot name="icon">
             <x-heroicon-o-clipboard-check class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
@@ -40,11 +40,11 @@
 
     </x-sidebar.dropdown>
 
-    <x-sidebar.dropdown title="Evaluation" :active="Str::startsWith(
+    <x-sidebar.dropdown title="Evaluation" :active="Str::contains(
         request()
             ->route()
             ->uri(),
-        'buttons',
+        'evaluation',
     )">
         <x-slot name="icon">
             <x-heroicon-o-clipboard-check class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
@@ -52,7 +52,7 @@
 
 
         @foreach ($students as $student)
-            <x-sidebar.sublink title="{{ $student->name }}" href="{{ route('buttons.text') }}" :active="request()->routeIs('buttons.text')" />
+            <x-sidebar.sublink title="{{ $student->name }}" href="{{ route('hr.hr-evaluation.index',$student->ID) }}" :active="request()->routeIs('hr.hr-evaluation.index',$student->ID)" />
         @endforeach
 
     </x-sidebar.dropdown>

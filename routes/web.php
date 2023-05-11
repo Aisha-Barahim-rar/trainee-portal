@@ -43,7 +43,17 @@ Route::get('/hr/dashboard', function () {
     ->name('hr.dashboard');
 
 Route::get('/company/dashboard', function () {
-    return view('company.dashboard');
+    $mentor = DB::table('company_mentor')
+    ->where('user_id','=',Auth::user()->id)
+    ->get();
+    
+    $students = DB::table('users')
+    ->join('student', 'users.ID', '=', 'student.user_id')
+    ->join('student_company','student.ID','=','student_company.student_id')
+    ->where('student_company.mentor_id','=',$mentor[0]->ID)
+    ->select('student.*', 'users.email', 'users.name')
+    ->get();
+    return view('company.dashboard',['students'=>$students]);
 })
     ->middleware(['auth', 'verified'])
     ->name('company.dashboard');
@@ -104,6 +114,10 @@ Route::middleware('auth')->group(function () {
 
     Route::controller(HR\AttendanceController::class)->group(function () {
         Route::get('/hr/trainee/{id}/attendance/', 'index')->name('hr.attendance.index');
+    });
+
+    Route::controller(Admin\AttendanceController::class)->group(function () {
+        Route::get('/admin/trainee/{id}/attendance/', 'index')->name('admin.attendance.index');
     });
 
     Route::controller(University\AttendanceController::class)->group(function () {
@@ -177,15 +191,18 @@ Route::middleware('auth')->group(function () {
         Route::get('/hr/trainee/{id}/plan/', 'index')->name('hr.plan.index');
     });
 
+    Route::controller(Admin\PlanController::class)->group(function () {
+        Route::get('/admin/trainee/{id}/plan/', 'index')->name('admin.plan.index');
+    });
 
 
     Route::controller(Company\HREvaluationController::class)->group(function () {
         Route::get('/hr/{id}/evaluation/', 'index')->name('hr.evaluation.index');
-         # Route::get('/hr/{id}/attendance/create', 'create')->name('hr.evaluation.insert');
         Route::post('/hr/{id}/attendance/create', 'store')->name('hr.evaluation.store');
-  /*      Route::delete('/trainee/{id}/attendance/', 'destroy')->name('company.attendance.destroy');
-        Route::get('/trainee/attendance/edit/{id}', 'edit')->name('company.attendance.edit');
-        Route::post('/trainee/attendance/update/{id}', 'update')->name('company.attendance.update'); */
+    });
+
+    Route::controller(HR\HREvaluationController::class)->group(function () {
+        Route::get('/hr/{id}/hr-evaluation/', 'index')->name('hr.hr-evaluation.index');
     });
 
     Route::controller(Company\ProfileController::class)->group(function () {

@@ -39,7 +39,7 @@
                                             {{ $hr_admin->email }}</p>
                                     </div>
                                 </div>
-                                <div class="flex-auto sm:flex-col sm:items-end">
+                                <div class="sm:flex-col sm:items-end">
                                     <p class="text-sm leading-6 text-gray-900">{{ $hr_admin->mobile }}</p>
                                     <p class="mt-1 text-xs leading-5 text-gray-500">
                                     </p>

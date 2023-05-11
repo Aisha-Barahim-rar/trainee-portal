@@ -9,6 +9,12 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <section>
+                    @if (session('status') === 'evaluation-updated')
+                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 4000)"
+                            class="text-sm mt-2 mb-6 font-medium text-green-600">
+                            {{ __('Changes saved.') }}
+                        </p>
+                    @endif
                     <header>
                         <h2 class="text-lg font-medium">
                             {{ __('CO-OP Trainee Evaluation') }}
@@ -19,6 +25,7 @@
                         @csrf
                         <div class="mt-6 mb-4 py-4 px-4 border-b border-gray-300 dark:border-gray-700">
                             <h2 class="text-md font-semibold text-gray-700">
+                            
                                 {{ __('Trainee Information') }}
                             </h2>
                             <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -243,20 +250,20 @@
                                                 </td>
                                                 <td class="px-6 py-4 border border-slate-300">
 
-                                                    <x-form.select id="select" name="score[{{$loop->index}}]" class="block w-full"
+                                                    <x-form.select id="select{{$loop->index}}" name="score[{{$loop->index}}]" class="score block w-full"
                                                         >
                                                         <option value=""
                                                             @if ($criteria->score === '') selected @endif></option>
                                                         <option value="1"
-                                                            @if ($criteria->score === 1) selected @endif>1</option>
+                                                            @if ($criteria->score === 1 && $criteria->student_id === $user->SID) selected @endif>1</option>
                                                         <option value="2"
-                                                            @if ($criteria->score === 2) selected @endif>2</option>
+                                                            @if ($criteria->score === 2 && $criteria->student_id === $user->SID) selected @endif>2</option>
                                                         <option value="3"
-                                                            @if ($criteria->score === 3) selected @endif>3</option>
+                                                            @if ($criteria->score === 3 && $criteria->student_id === $user->SID) selected @endif>3</option>
                                                         <option value="4"
-                                                            @if ($criteria->score === 4) selected @endif>4</option>
+                                                            @if ($criteria->score === 4 && $criteria->student_id === $user->SID) selected @endif>4</option>
                                                         <option value="5"
-                                                            @if ($criteria->score === 5) selected @endif>5</option>
+                                                            @if ($criteria->score === 5 && $criteria->student_id === $user->SID) selected @endif>5</option>
                                                     </x-form.select>
                                                 </td>
                                             </tr>
@@ -267,8 +274,7 @@
                                             </td>
                                             <td class="px-6 py-4 border border-slate-300 font-semibold">
                                             <input id="total_score" name="total_score" type="hidden" />
-
-                                                out of 50
+                                                <span id="total"></span> out of 50
                                             </td>
                                         </tr>
                                         <tr>
@@ -277,7 +283,7 @@
                                                 Percentage
                                             </td>
                                             <td class="px-6 py-4 border border-slate-300 font-semibold">
-                                                %
+                                               <span id="percentage1" ></span> %
                                             </td>
                                         </tr>
                                     </tbody>
@@ -328,31 +334,31 @@
                                             @foreach ($practical_evaluations as $practical_evaluation)
                                                 @if ($loop->index == 0)
                                                     <tr id="row{{ $loop->index }}">
-                                                        <td class="px-6 py-4 border border-slate-300">
+                                                        <td class="px-2 py-2 border border-slate-300">
                                                             <x-form.input id="topic"
                                                                 name="practical_evaluation[0][0]" type="text"
                                                                 class="block w-full" :value="old('topic', $practical_evaluation->topic)" autofocus
                                                                 autocomplete="topic" />
                                                         </td>
-                                                        <td class="px-6 py-4 border border-slate-300">
+                                                        <td class="px-2 py-2 border border-slate-300">
                                                             <x-form.input id="start_date"
-                                                                name="practical_evaluation[0][1]" type="text"
+                                                                name="practical_evaluation[0][1]" type="date"
                                                                 class="block w-full" :value="old(
                                                                     'start_date',
                                                                     $practical_evaluation->start_date,
                                                                 )" autofocus
                                                                 autocomplete="start_date" />
                                                         </td>
-                                                        <td class="px-6 py-4 border border-slate-300">
+                                                        <td class="px-2 py-2 border border-slate-300">
                                                             <x-form.input id="end_date"
-                                                                name="practical_evaluation[0][2]" type="text"
+                                                                name="practical_evaluation[0][2]" type="date"
                                                                 class="block w-full" :value="old(
                                                                     'end_date',
                                                                     $practical_evaluation->end_date,
                                                                 )" autofocus
                                                                 autocomplete="end_date" />
                                                         </td>
-                                                        <td class="px-6 py-4 border border-slate-300">
+                                                        <td class="px-2 py-2 border border-slate-300">
                                                             <x-form.input id="employee"
                                                                 name="practical_evaluation[0][3]" type="text"
                                                                 class="block w-full" :value="old(
@@ -361,7 +367,7 @@
                                                                 )" autofocus
                                                                 autocomplete="employee" />
                                                         </td>
-                                                        <td class="px-6 py-4 border border-slate-300">
+                                                        <td class="px-2 py-2 border border-slate-300">
                                                             <x-form.input id="department"
                                                                 name="practical_evaluation[0][4]" type="text"
                                                                 class="block w-full" :value="old(
@@ -370,7 +376,7 @@
                                                                 )" autofocus
                                                                 autocomplete="department" />
                                                         </td>
-                                                        <td class="px-6 py-4 border border-slate-300">
+                                                        <td class="px-2 py-2 border border-slate-300">
                                                             <x-form.select id="select" class="block w-full"
                                                                 name="practical_evaluation[0][5]">
                                                                 <option value=""
@@ -380,20 +386,20 @@
                                                                     @if ($practical_evaluation->score === 1) selected @endif>1
                                                                 </option>
                                                                 <option value="2"
-                                                                    @if ($practical_evaluation->score === 1) selected @endif>2
+                                                                    @if ($practical_evaluation->score === 2) selected @endif>2
                                                                 </option>
                                                                 <option value="3"
-                                                                    @if ($practical_evaluation->score === 1) selected @endif>3
+                                                                    @if ($practical_evaluation->score === 3) selected @endif>3
                                                                 </option>
                                                                 <option value="4"
-                                                                    @if ($practical_evaluation->score === 1) selected @endif>
+                                                                    @if ($practical_evaluation->score === 4) selected @endif>
                                                                     4</option>
                                                                 <option value="5"
-                                                                    @if ($practical_evaluation->score === 1) selected @endif>
+                                                                    @if ($practical_evaluation->score === 5) selected @endif>
                                                                     5</option>
                                                             </x-form.select>
                                                         </td>
-                                                        <td>
+                                                        <td class="px-2 py-2 border border-slate-300">
                                                             <x-button variant="success" size="sm" name="add"
                                                                 id="add" type="button"
                                                                 class="rounded-l-md border-t border-b border-r">
@@ -404,31 +410,31 @@
                                                     </tr>
                                                 @else
                                                     <tr id="row{{ $loop->index }}">
-                                                        <td class="px-6 py-4 border border-slate-300">
+                                                        <td class="px-2 py-2 border border-slate-300">
                                                             <x-form.input id="topic"
                                                                 name="practical_evaluation[$loop->index][0]"
                                                                 type="text" class="block w-full" :value="old('topic', $practical_evaluation->topic)"
                                                                 autofocus autocomplete="topic" />
                                                         </td>
-                                                        <td class="px-6 py-4 border border-slate-300">
+                                                        <td class="px-2 py-2 border border-slate-300">
                                                             <x-form.input id="start_date"
                                                                 name="practical_evaluation[$loop->index][1]"
-                                                                type="text" class="block w-full" :value="old(
+                                                                type="date" class="block w-full" :value="old(
                                                                     'start_date',
                                                                     $practical_evaluation->start_date,
                                                                 )"
                                                                 autofocus autocomplete="start_date" />
                                                         </td>
-                                                        <td class="px-6 py-4 border border-slate-300">
+                                                        <td class="px-2 py-2 border border-slate-300">
                                                             <x-form.input id="end_date"
                                                                 name="practical_evaluation[$loop->index][2]"
-                                                                type="text" class="block w-full" :value="old(
+                                                                type="date" class="block w-full" :value="old(
                                                                     'end_date',
                                                                     $practical_evaluation->end_date,
                                                                 )"
                                                                 autofocus autocomplete="end_date" />
                                                         </td>
-                                                        <td class="px-6 py-4 border border-slate-300">
+                                                        <td class="px-2 py-2 border border-slate-300">
                                                             <x-form.input id="employee"
                                                                 name="practical_evaluation[$loop->index][3]"
                                                                 type="text" class="block w-full" :value="old(
@@ -437,7 +443,7 @@
                                                                 )"
                                                                 autofocus autocomplete="employee" />
                                                         </td>
-                                                        <td class="px-6 py-4 border border-slate-300">
+                                                        <td class="px-2 py-2 border border-slate-300">
                                                             <x-form.input id="department"
                                                                 name="practical_evaluation[$loop->index][4]"
                                                                 type="text" class="block w-full" :value="old(
@@ -446,7 +452,7 @@
                                                                 )"
                                                                 autofocus autocomplete="department" />
                                                         </td>
-                                                        <td class="px-6 py-4 border border-slate-300">
+                                                        <td class="px-2 py-2 border border-slate-300">
 
                                                             <x-form.select id="select" class="block w-full"
                                                                 name="practical_evaluation[$loop->index][5]">
@@ -458,23 +464,23 @@
                                                                     1
                                                                 </option>
                                                                 <option value="2"
-                                                                    @if ($practical_evaluation->score === 1) selected @endif>
+                                                                    @if ($practical_evaluation->score === 2) selected @endif>
                                                                     2
                                                                 </option>
                                                                 <option value="3"
-                                                                    @if ($practical_evaluation->score === 1) selected @endif>
+                                                                    @if ($practical_evaluation->score === 3) selected @endif>
                                                                     3
                                                                 </option>
                                                                 <option value="4"
-                                                                    @if ($practical_evaluation->score === 1) selected @endif>
+                                                                    @if ($practical_evaluation->score === 4) selected @endif>
                                                                     4</option>
                                                                 <option value="5"
-                                                                    @if ($practical_evaluation->score === 1) selected @endif>
+                                                                    @if ($practical_evaluation->score === 5) selected @endif>
                                                                     5</option>
                                                             </x-form.select>
                                                         </td>
-                                                        <td>
-                                                            <x-button variant="success" size="sm" name="remove"
+                                                        <td class="px-2 py-2 border border-slate-300">
+                                                            <x-button variant="danger" onclick="myFunction({{$loop->index}})" size="sm" name="remove"
                                                                 id="{{ $loop->index }}" type="button"
                                                                 class="rounded-l-md border-t border-b border-r btn_remove">
                                                                 <x-heroicon-o-minus class="flex-shrink-0 w-6 h-6"
@@ -492,12 +498,12 @@
                                                         autocomplete="topic" />
                                                 </td>
                                                 <td class="px-2 py-2 border border-slate-300">
-                                                    <x-form.input id="start_date" name="practical_evaluation[0][1]" type="text"
+                                                    <x-form.input id="start_date" name="practical_evaluation[0][1]" type="date"
                                                         class="block w-full" :value="old('start_date')" autofocus
                                                         autocomplete="start_date" />
                                                 </td>
                                                 <td class="px-2 py-2 border border-slate-300">
-                                                    <x-form.input id="end_date" name="practical_evaluation[0][2]" type="text"
+                                                    <x-form.input id="end_date" name="practical_evaluation[0][2]" type="date"
                                                         class="block w-full" :value="old('end_date')" autofocus
                                                         autocomplete="end_date" />
                                                 </td>
@@ -548,13 +554,6 @@
                             <x-button type="submit">
                                 {{ __('Save') }}
                             </x-button>
-
-                            @if (session('status') === 'evaluation-updated')
-                                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                                    class="text-sm text-gray-600 dark:text-gray-400">
-                                    {{ __('Saved.') }}
-                                </p>
-                            @endif
                         </div>
                     </form>
                 </section>

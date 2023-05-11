@@ -48,7 +48,7 @@
                                             {{ $company_mentor->department }}</p>
                                     </div>
                                 </div>
-                                <div class="flex-auto sm:flex-col sm:items-end">
+                                <div class="sm:flex-col sm:items-end">
                                     
                                     <div class="inline-flex rounded-md shadow-sm" role="group">
                                         <x-button variant="secondary" size="sm" href="{{ route('admin.company.view',$company_mentor->ID) }}" 

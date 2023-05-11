@@ -68,7 +68,12 @@
             </div>
         </div>
     </div>
-
+<script>
+function myFunction(i) {
+                var button_id = document.getElementById(i).getAttribute('id');
+                document.querySelector('#row' + button_id + '').remove();
+            }
+</script>
 </body>
 
 </html>
