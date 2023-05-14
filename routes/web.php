@@ -25,22 +25,56 @@ Route::get('/', function () {
 });
 
 Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard');
+    $students = DB::table('users')
+    ->join('student', 'users.ID', '=', 'student.user_id')
+    ->leftJoin('attendance','attendance.student_id','=','student.ID')
+    ->leftJoin('report','report.student_id','=','student.ID')
+    ->leftJoin('student_link','student_link.student_id','=','student.ID')
+    ->select('student.*', 'users.email', 'users.name',DB::raw("count(attendance.ID) as attendance"),
+    DB::raw("count(report.ID) as report"),DB::raw("count(student_link.ID) as link") 
+    )
+    ->groupBy('student.ID')
+    ->get();
+
+    return view('admin.dashboard',['students'=>$students]);
 })
     ->middleware(['auth', 'verified'])
     ->name('admin.dashboard');
 
 Route::get('/student/dashboard', function () {
-    return view('student.dashboard');
+    $students = DB::table('users')
+    ->join('student', 'users.ID', '=', 'student.user_id')
+    ->leftJoin('attendance','attendance.student_id','=','student.ID')
+    ->leftJoin('report','report.student_id','=','student.ID')
+    ->leftJoin('student_link','student_link.student_id','=','student.ID')
+    ->where('student.user_id','=',Auth::user()->id)
+    ->select('student.*', 'users.email', 'users.name',DB::raw("count(attendance.ID) as attendance"),
+    DB::raw("count(report.ID) as report"),DB::raw("count(student_link.ID) as link") 
+    )
+    ->groupBy('student.ID')
+    ->get();
+    return view('student.dashboard',['students'=>$students]);
 })
     ->middleware(['auth', 'verified'])
     ->name('student.dashboard');
 
 Route::get('/hr/dashboard', function () {
-    return view('hr.dashboard');
+    $students = DB::table('users')
+    ->join('student', 'users.ID', '=', 'student.user_id')
+    ->leftJoin('attendance','attendance.student_id','=','student.ID')
+    ->leftJoin('report','report.student_id','=','student.ID')
+    ->leftJoin('student_link','student_link.student_id','=','student.ID')
+    ->select('student.*', 'users.email', 'users.name',DB::raw("count(attendance.ID) as attendance"),
+    DB::raw("count(report.ID) as report"),DB::raw("count(student_link.ID) as link") 
+    )
+    ->groupBy('student.ID')
+    ->get();
+
+    return view('hr.dashboard',['students'=>$students]);
 })
     ->middleware(['auth', 'verified'])
     ->name('hr.dashboard');
+
 
 Route::get('/company/dashboard', function () {
     $mentor = DB::table('company_mentor')
@@ -50,16 +84,41 @@ Route::get('/company/dashboard', function () {
     $students = DB::table('users')
     ->join('student', 'users.ID', '=', 'student.user_id')
     ->join('student_company','student.ID','=','student_company.student_id')
+    ->leftJoin('attendance','attendance.student_id','=','student.ID')
+    ->leftJoin('report','report.student_id','=','student.ID')
+    ->leftJoin('student_link','student_link.student_id','=','student.ID')
     ->where('student_company.mentor_id','=',$mentor[0]->ID)
-    ->select('student.*', 'users.email', 'users.name')
+    ->select('student.*', 'users.email', 'users.name',DB::raw("count(attendance.ID) as attendance"),
+    DB::raw("count(report.ID) as report"),DB::raw("count(student_link.ID) as link") 
+    )
+    ->groupBy('student.ID')
     ->get();
+
+
+    
     return view('company.dashboard',['students'=>$students]);
 })
     ->middleware(['auth', 'verified'])
     ->name('company.dashboard');
 
 Route::get('/university/dashboard', function () {
-    return view('university.dashboard');
+    $mentor = DB::table('university_mentor')
+    ->where('user_id','=',Auth::user()->id)
+    ->get();
+    
+    $students = DB::table('users')
+    ->join('student', 'users.ID', '=', 'student.user_id')
+    ->join('student_university','student.ID','=','student_university.student_id')
+    ->leftJoin('attendance','attendance.student_id','=','student.ID')
+    ->leftJoin('report','report.student_id','=','student.ID')
+    ->leftJoin('student_link','student_link.student_id','=','student.ID')
+    ->where('student_university.mentor_id','=',$mentor[0]->ID)
+    ->select('student.*', 'users.email', 'users.name',DB::raw("count(attendance.ID) as attendance"),
+    DB::raw("count(report.ID) as report"),DB::raw("count(student_link.ID) as link") 
+    )
+    ->groupBy('student.ID')
+    ->get();
+    return view('university.dashboard',['students'=>$students]);
 })
     ->middleware(['auth', 'verified'])
     ->name('university.dashboard');

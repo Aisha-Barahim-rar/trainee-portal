@@ -12,35 +12,40 @@
                     {{ __('Hi, ') }} {{ Auth::user()->name }}
                 </div>
 
-                <table
-                    class="table-auto w-full text-sm text-left text-gray-500 border-collapse border border-slate-400 dark:text-gray-400">
-                    <thead class="text-sm text-gray-900 bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                            <th scope="col" class="px-6 py-3 border border-slate-300">
-                                Trainee
-                            </th>
-                            <th scope="col" class="px-6 py-3 border border-slate-300">
-                                Summary Report
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
+
                         @foreach ($students as $student)
-                            <tr>
-                                <td class="px-6 py-4 border border-slate-300 font-semibold">
-                                    <p class="text-sm font-semibold leading-6 text-gray-700">{{ $student->name }}
+                        <div class="py-6 px-6 border rounded-md mb-4 grid grid-cols-1 md:grid-cols-2 md:items-center gap-4">
+                        <div class="space-y-2">
+                        <p class="text-sm font-semibold leading-6 text-gray-700 md:text-center">{{ $student->name }}
                                     </p>
+
                                     <p class="mt-1 truncate text-xs leading-5 text-gray-500">
-                                        {{ $student->email }}</p>
-                                </td>
-                                <td class="px-6 py-4 border border-slate-300 font-semibold">
-                                    <p class="text-sm font-semibold leading-6 text-gray-700">Shared Links
-                                    </p>
-                                </td>
-                            </tr>
+                                            {{ $student->university }} - {{ $student->major }}</p>
+</div>
+<div class="space-y-2">
+    <p>
+    <span class="text-sm font-semibold leading-6 text-gray-700 md:text-center">{{$student->attendance}}</span> 
+    <span class="text-sm leading-5 text-gray-500 text-left md:text-center ml-4">
+    Attendance 
+</span>
+</p>
+<p>
+    <span class="text-sm font-semibold leading-6 text-gray-700 md:text-center">{{$student->report}}</span> 
+    <span class="text-sm leading-5 text-gray-500 text-left md:text-center ml-4">
+    Reports 
+</span>
+</p>
+<p>
+    <span class="text-sm font-semibold leading-6 text-gray-700 md:text-center">{{$student->link}}</span> 
+    <span class="text-sm leading-5 text-gray-500 text-left md:text-center ml-4">
+    Important Links 
+</span>
+</p>
+</div>
+                            
+</div>
                         @endforeach
-                    </tbody>
-                </table>
+                    
             </div>
         </div>
     </div>
