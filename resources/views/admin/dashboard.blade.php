@@ -35,13 +35,25 @@
                             </p>
                             <p>
                                 <span
-                                    class="text-md font-semibold leading-6 text-alrashed-600">{{ $student->report }}</span>
+                                    class="text-md font-semibold leading-6 text-alrashed-600">
+                                    @foreach($reports as $report)
+                                @if($report->ID===$student->ID)
+                                {{ $report->report }}
+                                @endif
+                                @endforeach
+                                </span>
                                 <span class="text-sm leading-5 text-gray-500 text-left ml-4">
                                     Reports
                                 </span>
                             </p>
                             <p>
-                                <span class="text-md font-semibold leading-6 text-alrashed-600">{{ $student->link }}</span>
+                                <span class="text-md font-semibold leading-6 text-alrashed-600">
+                                @foreach($links as $link)
+                                @if($link->ID===$student->ID)
+                                {{ $link->link }}
+                                @endif
+                                @endforeach    
+                                </span>
                                 <span class="text-sm leading-5 text-gray-500 text-left ml-4">
                                     Important Links
                                 </span>
@@ -50,6 +62,7 @@
 
                     </div>
                 @endforeach
+
             </div>
         </div>
     </div>
