@@ -121,31 +121,31 @@ if(document.getElementById("add")){
                 `<tr id="row${i}">
                     <td class="px-2 py-2 border border-slate-300">
                         <input id="topic" name="practical_evaluation[${i}][0]" type="text" class="px-2 py-2 border-gray-400 rounded-md focus:border-gray-400 focus:ring
-                        focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-white dark:border-gray-600 dark:bg-dark-eval-1
+                        focus:ring-alrashed-500 focus:ring-offset-2 focus:ring-offset-white dark:border-gray-600 dark:bg-dark-eval-1
                         dark:text-gray-300 dark:focus:ring-offset-dark-eval-1 block w-full"
                             autofocus autocomplete="topic" />
                     </td>
                     <td class="px-2 py-2 border border-slate-300">
                         <input id="start_date" name="practical_evaluation[${i}][1]" type="date" class="px-2 py-2 border-gray-400 rounded-md focus:border-gray-400 focus:ring
-                        focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-white dark:border-gray-600 dark:bg-dark-eval-1
+                        focus:ring-alrashed-500 focus:ring-offset-2 focus:ring-offset-white dark:border-gray-600 dark:bg-dark-eval-1
                         dark:text-gray-300 dark:focus:ring-offset-dark-eval-1 block w-full"
                             autofocus autocomplete="start_date" />
                     </td>
                     <td class="px-2 py-2 border border-slate-300">
                         <input id="end_date" name="practical_evaluation[${i}][2]" type="date" class="px-2 py-2 border-gray-400 rounded-md focus:border-gray-400 focus:ring
-                        focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-white dark:border-gray-600 dark:bg-dark-eval-1
+                        focus:ring-alrashed-500 focus:ring-offset-2 focus:ring-offset-white dark:border-gray-600 dark:bg-dark-eval-1
                         dark:text-gray-300 dark:focus:ring-offset-dark-eval-1 block w-full"
                             autofocus autocomplete="end_date" />
                     </td>
                     <td class="px-2 py-2 border border-slate-300">
                         <input id="employee" name="practical_evaluation[${i}][3]" type="text" class="px-2 py-2 border-gray-400 rounded-md focus:border-gray-400 focus:ring
-                        focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-white dark:border-gray-600 dark:bg-dark-eval-1
+                        focus:ring-alrashed-500 focus:ring-offset-2 focus:ring-offset-white dark:border-gray-600 dark:bg-dark-eval-1
                         dark:text-gray-300 dark:focus:ring-offset-dark-eval-1 block w-full"
                             autofocus autocomplete="employee" />
                     </td>
                     <td class="px-2 py-2 border border-slate-300">
                         <input id="department" name="practical_evaluation[${i}][4]" type="text" class="px-2 py-2 border-gray-400 rounded-md focus:border-gray-400 focus:ring
-                        focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-white dark:border-gray-600 dark:bg-dark-eval-1
+                        focus:ring-alrashed-500 focus:ring-offset-2 focus:ring-offset-white dark:border-gray-600 dark:bg-dark-eval-1
                         dark:text-gray-300 dark:focus:ring-offset-dark-eval-1 block w-full"
                             autofocus autocomplete="department" />
                             
@@ -154,7 +154,7 @@ if(document.getElementById("add")){
     
 
                         <select class="px-4 py-2 border-gray-400 rounded-md focus:border-gray-400 focus:ring
-            focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-white dark:border-gray-600 dark:bg-dark-eval-1
+            focus:ring-alrashed-500 focus:ring-offset-2 focus:ring-offset-white dark:border-gray-600 dark:bg-dark-eval-1
             dark:text-gray-300 dark:focus:ring-offset-dark-eval-1 block w-full" id="select" name="practical_evaluation[${i}][5]">
 <option value="">
                                                         </option>

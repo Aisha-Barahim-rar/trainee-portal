@@ -292,6 +292,10 @@ Route::middleware('auth')->group(function () {
         Route::post('/admin/trainee/update/{id}', 'update')->name('admin.trainees.update');
     });
 
+    Route::controller(Company\TraineesController::class)->group(function () {
+        Route::get('/company/trainee/view/{id}', 'view')->name('company.trainees.view');
+    });
+
     Route::controller(Admin\HRController::class)->group(function () {
         Route::get('/admin/hr', 'index')->name('admin.hr.index');
         Route::get('admin.hr.create', 'create')->name('admin.hr.create');

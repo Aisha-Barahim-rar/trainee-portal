@@ -13,39 +13,43 @@
                 </div>
 
 
-                        @foreach ($students as $student)
-                        <div class="py-6 px-6 border rounded-md mb-4 grid grid-cols-1 md:grid-cols-2 md:items-center gap-4">
+                @foreach ($students as $student)
+                    <div class="py-6 px-6 border rounded-md mb-4 bg-gray-50 border-gray-50 grid grid-cols-1 md:grid-cols-2 md:items-center gap-4">
                         <div class="space-y-2">
-                        <p class="text-sm font-semibold leading-6 text-gray-700 md:text-center">{{ $student->name }}
-                                    </p>
+                            <p class="text-sm font-semibold leading-6 text-gray-700">{{ $student->name }}
+                            </p>
 
-                                    <p class="mt-1 truncate text-xs leading-5 text-gray-500">
-                                            {{ $student->university }} - {{ $student->major }}</p>
-</div>
-<div class="space-y-2">
-    <p>
-    <span class="text-sm font-semibold leading-6 text-gray-700 md:text-center">{{$student->attendance}}</span> 
-    <span class="text-sm leading-5 text-gray-500 text-left md:text-center ml-4">
-    Attendance 
-</span>
-</p>
-<p>
-    <span class="text-sm font-semibold leading-6 text-gray-700 md:text-center">{{$student->report}}</span> 
-    <span class="text-sm leading-5 text-gray-500 text-left md:text-center ml-4">
-    Reports 
-</span>
-</p>
-<p>
-    <span class="text-sm font-semibold leading-6 text-gray-700 md:text-center">{{$student->link}}</span> 
-    <span class="text-sm leading-5 text-gray-500 text-left md:text-center ml-4">
-    Important Links 
-</span>
-</p>
-</div>
-                            
-</div>
-                        @endforeach
-                    
+                            <p class="mt-1 truncate text-xs leading-5 text-gray-500">
+                                {{ $student->university }} - {{ $student->major }}</p>
+                        </div>
+                        <div class="space-y-2">
+                        <p class="text-sm font-semibold leading-6 text-gray-700">Summary Report
+                            </p>
+                            <p>
+                                <span
+                                    class="text-md text-alrashed-600 font-semibold leading-6">{{ $student->attendance }}</span>
+                                <span class="text-sm leading-5 text-gray-500 text-left ml-4">
+                                    Attendance
+                                </span>
+                            </p>
+                            <p>
+                                <span
+                                    class="text-md font-semibold leading-6 text-alrashed-600">{{ $student->report }}</span>
+                                <span class="text-sm leading-5 text-gray-500 text-left ml-4">
+                                    Reports
+                                </span>
+                            </p>
+                            <p>
+                                <span class="text-md font-semibold leading-6 text-alrashed-600">{{ $student->link }}</span>
+                                <span class="text-sm leading-5 text-gray-500 text-left ml-4">
+                                    Important Links
+                                </span>
+                            </p>
+                        </div>
+
+                    </div>
+                @endforeach
+
             </div>
         </div>
     </div>
