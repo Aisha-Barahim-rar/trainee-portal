@@ -121,7 +121,7 @@
                 @csrf
 
                 <h2 class="text-lg font-medium mb-4">
-                    {{ __('Please select from trainees list to be mentored by') }} {{ Auth::user()->name }}
+                    {{ __('Please select from trainees list to be mentored by') }} {{ $university_mentor->name }}
                 </h2>
                 <div class="border border-gray-200 rounded dark:border-gray-700">
                     @foreach ($students as $student)

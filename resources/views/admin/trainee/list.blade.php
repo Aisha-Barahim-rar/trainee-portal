@@ -39,11 +39,10 @@
                                         <p class="text-sm font-semibold leading-6 text-gray-900">{{ $student->name }}
                                         </p>
                                         <p class="mt-1 truncate text-xs leading-5 text-gray-500">
-                                            {{ $student->email }}</p>
+                                            {{ $student->university }} -  {{ $student->major }}</p>
                                     </div>
                                 </div>
                                 <div class="sm:flex-col sm:items-end">
-                                    <p class="text-sm leading-6 text-gray-900">{{ $student->major }}</p>
                                     <p class="mt-1 text-xs leading-5 text-gray-500">
                                     </p>
                                     <div class="inline-flex rounded-md shadow-sm" role="group">
