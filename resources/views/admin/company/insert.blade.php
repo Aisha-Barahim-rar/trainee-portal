@@ -1,14 +1,14 @@
 <x-admin-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Company Mentors') }}
+            {{ __('Company Supervisors') }}
         </h2>
     </x-slot>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    {{ __('Add New Company Mentor') }}
+                    {{ __('Add New Company Supervisor') }}
                     <x-auth-validation-errors class="mb-4" :errors="$errors" />
                     <form method="POST" action="{{ route('admin.company.create') }}">
                         @csrf
@@ -55,8 +55,8 @@
                                     <x-form.select withicon id="select" class="block w-full" name="role">
                                         <option value="admin">Super Admin</option>
                                         <option value="hr">HR Admin</option>
-                                        <option value="company" selected>Company Mentor</option>
-                                        <option value="university">University Mentor</option>
+                                        <option value="company" selected>Company Supervisor</option>
+                                        <option value="university">University Supervisor</option>
                                         <option value="student">Student</option>
                                     </x-form.select>
                                 </x-form.input-with-icon-wrapper>

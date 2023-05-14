@@ -332,6 +332,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/hr/trainee/{id}/plan/', 'index')->name('hr.plan.index');
     });
 
+
+
     Route::controller(Admin\PlanController::class)->group(function () {
         Route::get('/admin/trainee/{id}/plan/', 'index')->name('admin.plan.index');
     });
@@ -344,6 +346,7 @@ Route::middleware('auth')->group(function () {
 
     Route::controller(HR\HREvaluationController::class)->group(function () {
         Route::get('/hr/{id}/hr-evaluation/', 'index')->name('hr.hr-evaluation.index');
+        Route::get('/hr/{id}/hr-evaluation/print/', 'print')->name('hr.hr-evaluation.print');
     });
 
     Route::controller(Company\ProfileController::class)->group(function () {

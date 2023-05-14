@@ -55,8 +55,8 @@
                                     <x-form.select withicon id="select" class="block w-full" name="role">
                                         <option value="admin">Super Admin</option>
                                         <option value="hr" selected>HR Admin</option>
-                                        <option value="company">Company Mentor</option>
-                                        <option value="university">University Mentor</option>
+                                        <option value="company">Company Supervisor</option>
+                                        <option value="university">University Supervisor</option>
                                         <option value="student">Student</option>
                                     </x-form.select>
                                 </x-form.input-with-icon-wrapper>

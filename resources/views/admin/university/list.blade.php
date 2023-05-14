@@ -1,7 +1,7 @@
 <x-admin-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('University Mentors') }}
+            {{ __('University Supervisors') }}
         </h2>
     </x-slot>
 
@@ -13,13 +13,13 @@
                     @if (session('status') === 'university-created')
                         <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 4000)"
                             class="text-sm mt-2 mb-6 font-medium text-green-600">
-                            {{ __('A new mentor has been created successfully.') }}
+                            {{ __('A new supervisor has been created successfully.') }}
                         </p>
                     @endif
                     @if (session('status') === 'university-deleted')
                         <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 4000)"
                             class="text-sm mt-2 mb-6 font-medium text-red-600">
-                            {{ __('University mentor has been deleted successfully.') }}
+                            {{ __('University supervisor has been deleted successfully.') }}
                         </p>
                     @endif
                     @if (session('status') === 'university-trainee-created')
@@ -31,10 +31,10 @@
                     @if (session('status') === 'university-updated')
                         <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 4000)"
                             class="text-sm mt-2 mb-6 font-medium text-green-600">
-                            {{ __('University mentor has been updated successfully.') }}
+                            {{ __('University supervisor has been updated successfully.') }}
                         </p>
                     @endif
-                    {{ __('University Mentors List') }}
+                    {{ __('University Supervisors List') }}
                     <ul role="list" class="divide-y divide-gray-100 mt-6">
                         @foreach ($university_mentors as $university_mentor)
                             <li class="flex justify-between gap-x-6 py-5 mb-4">
@@ -79,7 +79,7 @@
                         <div>
                              <x-button :variant="'primary'" items-end size="base"
                                 href="{{ route('admin.university.insert') }}">
-                                Add New University Mentor
+                                Add New University Supervisor
                             </x-button>
                         </div>
                     </div>
@@ -96,7 +96,7 @@
                 @method('delete')
 
                 <h2 class="text-lg font-medium">
-                    {{ __('Are you sure you want to delete this mentor?') }}
+                    {{ __('Are you sure you want to delete this supervisor?') }}
                 </h2>
 
                 <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">

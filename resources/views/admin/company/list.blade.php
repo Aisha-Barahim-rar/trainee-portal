@@ -1,7 +1,7 @@
 <x-admin-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Comapny Mentors') }}
+            {{ __('Comapny Supervisors') }}
         </h2>
     </x-slot>
 
@@ -12,13 +12,13 @@
                     @if (session('status') === 'company-created')
                         <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 4000)"
                             class="text-sm mt-2 mb-6 font-medium text-green-600">
-                            {{ __('A new mentor has been created successfully.') }}
+                            {{ __('A new supervisor has been created successfully.') }}
                         </p>
                     @endif
                     @if (session('status') === 'company-deleted')
                         <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 4000)"
                             class="text-sm mt-2 mb-6 font-medium text-red-600">
-                            {{ __('Company mentor has been deleted successfully.') }}
+                            {{ __('Company supervisor has been deleted successfully.') }}
                         </p>
                     @endif
                     @if (session('status') === 'company-trainee-created')
@@ -30,11 +30,11 @@
                     @if (session('status') === 'company-updated')
                         <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 4000)"
                             class="text-sm mt-2 mb-6 font-medium text-green-600">
-                            {{ __('Company mentor has been updated successfully.') }}
+                            {{ __('Company supervisor has been updated successfully.') }}
                         </p>
                     @endif
                     
-                    {{ __('Comapny Mentors List') }}
+                    {{ __('Comapny Supervisors List') }}
 
                     <ul role="list" class="divide-y divide-gray-100 mt-6">
                         @foreach ($company_mentors as $company_mentor)
@@ -79,7 +79,7 @@
                         <div>
                             <x-button :variant="'primary'" items-end size="base"
                                 href="{{ route('admin.company.insert') }}">
-                                Add New Company Mentor
+                                Add New Company Supervisor
                             </x-button>
                         </div>
 
@@ -99,7 +99,7 @@
                 @method('delete')
 
                 <h2 class="text-lg font-medium">
-                    {{ __('Are you sure you want to delete this mentor?') }}
+                    {{ __('Are you sure you want to delete this supervisor?') }}
                 </h2>
 
                 <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">

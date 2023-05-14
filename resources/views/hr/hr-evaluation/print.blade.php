@@ -1,4 +1,4 @@
-<x-hr-layout>
+<x-print-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('HR Evaluation') }}
@@ -21,13 +21,12 @@
                         </h2>
                     </header>
 
-<a href="{{ route('hr.hr-evaluation.print', $user->ID) }}" target=_blank>print</a>
                         <div class="mt-6 mb-4 py-4 px-4 border-b border-gray-300 dark:border-gray-700">
                             <h2 class="text-md font-semibold text-gray-700">
 
                                 {{ __('Trainee Information') }}
                             </h2>
-                            <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="mt-4 grid grid-cols-2 gap-4">
                                 <!-- Name -->
                                 <div class="space-y-2">
                                     <x-form.label for="student_name" :value="__('Name')" class="mb-4" />
@@ -284,4 +283,12 @@
 
         </div>
     </div>
-</x-hr-layout>
+@push('scripts')
+    <script>
+        window.onload = function() {
+            window.print();
+        }
+    </script>
+@endpush
+
+</x-print-layout>

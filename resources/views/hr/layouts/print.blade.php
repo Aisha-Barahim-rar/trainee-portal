@@ -1,7 +1,3 @@
-@props([
-    'students' => $students
-])
-
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -25,7 +21,7 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    
+    @stack('scripts')
 </head>
 
 <body class="font-sans antialiased">
@@ -36,9 +32,7 @@
         x-cloak
     >
         <div class="min-h-screen text-gray-900 bg-gray-100 dark:bg-dark-eval-0 dark:text-gray-200">
-            <!-- Sidebar -->
-            <x-admin.sidebar.sidebar :students="$students" />
-
+            
             <!-- Page Wrapper -->
             <div
                 class="flex flex-col min-h-screen"
@@ -49,15 +43,7 @@
                 style="transition-property: margin; transition-duration: 150ms;"
             >
 
-                <!-- Navbar -->
-                <x-admin.navbar />
-
-                <!-- Page Heading -->
-                <header>
-                    <div class="p-4 sm:p-6">
-                        {{ $header }}
-                    </div>
-                </header>
+              
 
                 <!-- Page Content -->
                 <main class="px-4 sm:px-6 flex-1">

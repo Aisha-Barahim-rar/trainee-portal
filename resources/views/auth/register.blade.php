@@ -74,8 +74,8 @@
                             <option value="" selected disabled hidden>{{ __('Choose an option') }}</option>
                             <option value="admin">Super Admin</option>
                             <option value="hr">HR Admin</option>
-                            <option value="company">Company Mentor</option>
-                            <option value="university">University Mentor</option>
+                            <option value="company">Company Supervisor</option>
+                            <option value="university">University Supervisor</option>
                             <option value="student">Student</option>
                         </x-form.select>
                     </x-form.input-with-icon-wrapper>

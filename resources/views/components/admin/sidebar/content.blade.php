@@ -53,8 +53,8 @@
     </x-sidebar.dropdown>
 
     <x-sidebar.link title="Trainees" href="{{ route('admin.trainees.index') }}" :isActive="request()->routeIs('admin.trainees.index')" />
-    <x-sidebar.link title="Company Mentors" href="{{ route('admin.company.index') }}" :isActive="request()->routeIs('admin.company.index')" />
-    <x-sidebar.link title="University Mentors" href="{{ route('admin.university.index') }}" :isActive="request()->routeIs('admin.university.index')" />
+    <x-sidebar.link title="Company Supervisors" href="{{ route('admin.company.index') }}" :isActive="request()->routeIs('admin.company.index')" />
+    <x-sidebar.link title="University Supervisors" href="{{ route('admin.university.index') }}" :isActive="request()->routeIs('admin.university.index')" />
     <x-sidebar.link title="HR Admins" href="{{ route('admin.hr.index') }}" :isActive="request()->routeIs('admin.hr.index')" />
 
 
