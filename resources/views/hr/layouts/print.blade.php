@@ -17,6 +17,9 @@
         [x-cloak] {
             display: none;
         }
+        @media print {
+    .pagebreak { page-break-before: always; } /* page-break-after works, as well */
+}
     </style>
 
     <!-- Scripts -->
@@ -46,12 +49,11 @@
               
 
                 <!-- Page Content -->
-                <main class="px-4 sm:px-6 flex-1">
+                <main class="flex-1">
                     {{ $slot }}
                 </main>
 
-                <!-- Page Footer -->
-                <x-footer />
+                
             </div>
         </div>
     </div>
