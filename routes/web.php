@@ -26,207 +26,367 @@ Route::get('/', function () {
 
 Route::get('/admin/dashboard', function () {
     $students = DB::table('users')
-    ->join('student', 'users.ID', '=', 'student.user_id')
-    ->leftJoin('attendance','attendance.student_id','=','student.ID')
-    ->select('student.*', 'users.email', 'users.name',DB::raw("count(attendance.ID) as attendance")
-    )
-    ->groupBy('student.ID')
-    ->get();
+        ->join('student', 'users.ID', '=', 'student.user_id')
+        ->select('student.*', 'users.email', 'users.name')
+        ->get();
 
-    
+    $mentors = DB::table('users')
+        ->join('company_mentor', 'users.ID', '=', 'company_mentor.user_id')
+        ->join('student_company', 'company_mentor.ID', '=', 'student_company.mentor_id')
+        ->select('student_company.*', 'company_mentor.*', 'users.email', 'users.name')
+        ->get();
+
+    $attendances = DB::table('users')
+        ->join('student', 'users.ID', '=', 'student.user_id')
+        ->leftJoin('attendance', 'attendance.student_id', '=', 'student.ID')
+        ->select('student.*', 'users.email', 'users.name', DB::raw('count(attendance.ID) as attendance'))
+        ->groupBy('student.ID')
+        ->get();
+
+    $attendance = DB::table('users')
+        ->join('student', 'users.ID', '=', 'student.user_id')
+        ->leftJoin('attendance', 'attendance.student_id', '=', 'student.ID')
+        ->select('student.*', 'users.email', 'users.name', 'attendance', 'departure')
+        ->get();
+    $hours = [];
+    foreach ($attendance as $attend) {
+        $time = (strtotime($attend->departure) - strtotime($attend->attendance)) / 3600;
+        $hours[$attend->ID][] = $time;
+    }
+
+    $times = [];
+    foreach ($attendance as $attend) {
+        $sum = 0;
+        foreach ($hours[$attend->ID] as $hour) {
+            $sum = $sum + $hour;
+        }
+        $times[$attend->ID] = $sum;
+    }
+
     $links = DB::table('users')
-    ->join('student', 'users.ID', '=', 'student.user_id')
-    ->leftJoin('student_link','student_link.student_id','=','student.ID')
-    ->select('student.*', DB::raw("count(student_link.ID) as link") 
-    )
-    ->groupBy('student.ID')
-    ->get();
+        ->join('student', 'users.ID', '=', 'student.user_id')
+        ->join('student_link', 'student_link.student_id', '=', 'student.ID')
+        ->select('student.*', DB::raw('count(student_link.ID) as link'))
+        ->groupBy('student.ID')
+        ->get();
 
     $reports = DB::table('users')
-    ->join('student', 'users.ID', '=', 'student.user_id')
-    ->leftJoin('report','report.student_id','=','student.ID')
-    ->select('student.*', 'users.email',
-    DB::raw("count(report.ID) as report")
-    )
-    ->groupBy('student.ID')
-    ->get();
+        ->join('student', 'users.ID', '=', 'student.user_id')
+        ->join('report', 'report.student_id', '=', 'student.ID')
+        ->select('student.*', 'users.email', DB::raw('count(report.ID) as report'))
+        ->groupBy('student.ID')
+        ->get();
 
     $trainees_count = DB::table('users')
-    ->join('student', 'users.ID', '=', 'student.user_id')
-    ->join('student_company','student.ID','=','student_company.student_id')
-    ->join('company_mentor','student_company.mentor_id','=','company_mentor.ID')
-    ->get();
+        ->join('student', 'users.ID', '=', 'student.user_id')
+        ->join('student_company', 'student.ID', '=', 'student_company.student_id')
+        ->join('company_mentor', 'student_company.mentor_id', '=', 'company_mentor.ID')
+        ->get();
 
-    $years= ["2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"];
-    $departments = ["Human Resources", "Information Technology", "Accounts - Real Estate", "Accounts - BTH",
-                    "Investment"];
+    $years = ['2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030'];
+    $departments = ['Human Resources', 'Information Technology', 'Accounts - Real Estate', 'Accounts - BTH', 'Investment'];
     $data = [];
     $dept = 0;
-    foreach($departments as $department) {
-        
-        foreach($years as $year) {
+    foreach ($departments as $department) {
+        foreach ($years as $year) {
             $i = 0;
-            foreach($trainees_count as $count) {
-                if($count->department==$department && Str::contains($count->created_at, $year)){
+            foreach ($trainees_count as $count) {
+                if ($count->department == $department && Str::contains($count->created_at, $year)) {
                     $i++;
                 }
-            } 
+            }
             $data[$dept][] = $i;
-    } 
-    $dept = $dept+1;  
-    } 
+        }
+        $dept = $dept + 1;
+    }
 
-   
-    return view('admin.dashboard',['students'=>$students,'links'=>$links,'reports'=>$reports, 'data'=>$data]);
+    return view('admin.dashboard', ['students' => $students, 'mentors' => $mentors, 'links' => $links, 'times' => $times, 'attendances' => $attendances, 'reports' => $reports, 'data' => $data]);
 })
     ->middleware(['auth', 'verified'])
     ->name('admin.dashboard');
 
 Route::get('/student/dashboard', function () {
     $students = DB::table('users')
-    ->join('student', 'users.ID', '=', 'student.user_id')
-    ->leftJoin('attendance','attendance.student_id','=','student.ID')
-    ->where('student.user_id','=',Auth::user()->id)
-    ->select('student.*', 'users.email', 'users.name',DB::raw("count(attendance.ID) as attendance")
-    )
-    ->groupBy('student.ID')
-    ->get();
+        ->join('student', 'users.ID', '=', 'student.user_id')
+        ->where('student.user_id', '=', Auth::user()->id)
+        ->select('student.*', 'users.email', 'users.name')
+        ->groupBy('student.ID')
+        ->get();
+
+    $mentors = DB::table('users')
+        ->join('company_mentor', 'users.ID', '=', 'company_mentor.user_id')
+        ->join('student_company', 'company_mentor.ID', '=', 'student_company.mentor_id')
+        ->select('student_company.*', 'company_mentor.*', 'users.email', 'users.name')
+        ->get();
+
+    $attendance = DB::table('users')
+        ->join('student', 'users.ID', '=', 'student.user_id')
+        ->leftJoin('attendance', 'attendance.student_id', '=', 'student.ID')
+        ->select('student.*', 'users.email', 'users.name', 'attendance', 'departure')
+        ->get();
+    $hours = [];
+    foreach ($attendance as $attend) {
+        $time = (strtotime($attend->departure) - strtotime($attend->attendance)) / 3600;
+        $hours[$attend->ID][] = $time;
+    }
+
+    $times = [];
+    foreach ($attendance as $attend) {
+        $sum = 0;
+        foreach ($hours[$attend->ID] as $hour) {
+            $sum = $sum + $hour;
+        }
+        $times[$attend->ID] = $sum;
+    }
 
     $links = DB::table('users')
-    ->join('student', 'users.ID', '=', 'student.user_id')
-    ->leftJoin('student_link','student_link.student_id','=','student.ID')
-    ->where('student.user_id','=',Auth::user()->id)
-    ->select('student.*', DB::raw("count(student_link.ID) as link") 
-    )
-    ->groupBy('student.ID')
-    ->get();
+        ->join('student', 'users.ID', '=', 'student.user_id')
+        ->join('student_link', 'student_link.student_id', '=', 'student.ID')
+        ->where('student.user_id', '=', Auth::user()->id)
+        ->select('student.*', DB::raw('count(student_link.ID) as link'))
+        ->groupBy('student.ID')
+        ->get();
 
     $reports = DB::table('users')
-    ->join('student', 'users.ID', '=', 'student.user_id')
-    ->leftJoin('report','report.student_id','=','student.ID')
-    ->where('student.user_id','=',Auth::user()->id)
-    ->select('student.*', 'users.email',
-    DB::raw("count(report.ID) as report")
-    )
-    ->groupBy('student.ID')
-    ->get();
+        ->join('student', 'users.ID', '=', 'student.user_id')
+        ->join('report', 'report.student_id', '=', 'student.ID')
+        ->where('student.user_id', '=', Auth::user()->id)
+        ->select('student.*', 'users.email', DB::raw('count(report.ID) as report'))
+        ->groupBy('student.ID')
+        ->get();
 
-    return view('student.dashboard',['students'=>$students,'links'=>$links,'reports'=>$reports]);
+    return view('student.dashboard', ['students' => $students, 'mentors' => $mentors, 'links' => $links, 'times' => $times, 'reports' => $reports]);
 })
     ->middleware(['auth', 'verified'])
     ->name('student.dashboard');
 
 Route::get('/hr/dashboard', function () {
     $students = DB::table('users')
-    ->join('student', 'users.ID', '=', 'student.user_id')
-    ->leftJoin('attendance','attendance.student_id','=','student.ID')
-    ->select('student.*', 'users.email', 'users.name',DB::raw("count(attendance.ID) as attendance")
-    )
-    ->groupBy('student.ID')
-    ->get();
+        ->join('student', 'users.ID', '=', 'student.user_id')
+        ->select('student.*', 'users.email', 'users.name')
+        ->get();
 
-    
+    $mentors = DB::table('users')
+        ->join('company_mentor', 'users.ID', '=', 'company_mentor.user_id')
+        ->join('student_company', 'company_mentor.ID', '=', 'student_company.mentor_id')
+        ->select('student_company.*', 'company_mentor.*', 'users.email', 'users.name')
+        ->get();
+
+    $attendances = DB::table('users')
+        ->join('student', 'users.ID', '=', 'student.user_id')
+        ->leftJoin('attendance', 'attendance.student_id', '=', 'student.ID')
+        ->select('student.*', 'users.email', 'users.name', DB::raw('count(attendance.ID) as attendance'))
+        ->groupBy('student.ID')
+        ->get();
+
+    $attendance = DB::table('users')
+        ->join('student', 'users.ID', '=', 'student.user_id')
+        ->leftJoin('attendance', 'attendance.student_id', '=', 'student.ID')
+        ->select('student.*', 'users.email', 'users.name', 'attendance', 'departure')
+        ->get();
+    $hours = [];
+    foreach ($attendance as $attend) {
+        $time = (strtotime($attend->departure) - strtotime($attend->attendance)) / 3600;
+        $hours[$attend->ID][] = $time;
+    }
+
+    $times = [];
+    foreach ($attendance as $attend) {
+        $sum = 0;
+        foreach ($hours[$attend->ID] as $hour) {
+            $sum = $sum + $hour;
+        }
+        $times[$attend->ID] = $sum;
+    }
+
     $links = DB::table('users')
-    ->join('student', 'users.ID', '=', 'student.user_id')
-    ->leftJoin('student_link','student_link.student_id','=','student.ID')
-    ->select('student.*', DB::raw("count(student_link.ID) as link") 
-    )
-    ->groupBy('student.ID')
-    ->get();
+        ->join('student', 'users.ID', '=', 'student.user_id')
+        ->join('student_link', 'student_link.student_id', '=', 'student.ID')
+        ->select('student.*', DB::raw('count(student_link.ID) as link'))
+        ->groupBy('student.ID')
+        ->get();
 
     $reports = DB::table('users')
-    ->join('student', 'users.ID', '=', 'student.user_id')
-    ->leftJoin('report','report.student_id','=','student.ID')
-    ->select('student.*', 'users.email',
-    DB::raw("count(report.ID) as report")
-    )
-    ->groupBy('student.ID')
-    ->get();
+        ->join('student', 'users.ID', '=', 'student.user_id')
+        ->join('report', 'report.student_id', '=', 'student.ID')
+        ->select('student.*', 'users.email', DB::raw('count(report.ID) as report'))
+        ->groupBy('student.ID')
+        ->get();
 
-    return view('hr.dashboard',['students'=>$students,'links'=>$links,'reports'=>$reports]);
+    $trainees_count = DB::table('users')
+        ->join('student', 'users.ID', '=', 'student.user_id')
+        ->join('student_company', 'student.ID', '=', 'student_company.student_id')
+        ->join('company_mentor', 'student_company.mentor_id', '=', 'company_mentor.ID')
+        ->get();
+
+    $years = ['2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030'];
+    $departments = ['Human Resources', 'Information Technology', 'Accounts - Real Estate', 'Accounts - BTH', 'Investment'];
+    $data = [];
+    $dept = 0;
+    foreach ($departments as $department) {
+        foreach ($years as $year) {
+            $i = 0;
+            foreach ($trainees_count as $count) {
+                if ($count->department == $department && Str::contains($count->created_at, $year)) {
+                    $i++;
+                }
+            }
+            $data[$dept][] = $i;
+        }
+        $dept = $dept + 1;
+    }
+
+    return view('hr.dashboard', ['students' => $students, 'mentors' => $mentors, 'links' => $links, 'times' => $times, 'attendances' => $attendances, 'reports' => $reports, 'data' => $data]);
 })
     ->middleware(['auth', 'verified'])
     ->name('hr.dashboard');
 
-
 Route::get('/company/dashboard', function () {
     $mentor = DB::table('company_mentor')
-    ->where('user_id','=',Auth::user()->id)
-    ->get();
-    
+        ->where('user_id', '=', Auth::user()->id)
+        ->get();
+
     $students = DB::table('users')
-    ->join('student', 'users.ID', '=', 'student.user_id')
-    ->join('student_company','student.ID','=','student_company.student_id')
-    ->leftJoin('attendance','attendance.student_id','=','student.ID')
-    ->where('student_company.mentor_id','=',$mentor[0]->ID)
-    ->select('student.*', 'users.email', 'users.name',DB::raw("count(attendance.ID) as attendance")
-    )
-    ->groupBy('student.ID')
-    ->get();
+        ->join('student', 'users.ID', '=', 'student.user_id')
+        ->join('student_company', 'student.ID', '=', 'student_company.student_id')
+        ->where('student_company.mentor_id', '=', $mentor[0]->ID)
+        ->select('student.*', 'users.email', 'users.name')
+        ->get();
+
+    $mentors = DB::table('users')
+        ->join('company_mentor', 'users.ID', '=', 'company_mentor.user_id')
+        ->join('student_company', 'company_mentor.ID', '=', 'student_company.mentor_id')
+        ->select('student_company.*', 'company_mentor.*', 'users.email', 'users.name')
+        ->get();
+
+    $attendances = DB::table('users')
+        ->join('student', 'users.ID', '=', 'student.user_id')
+        ->leftJoin('attendance', 'attendance.student_id', '=', 'student.ID')
+        ->select('student.*', 'users.email', 'users.name', DB::raw('count(attendance.ID) as attendance'))
+        ->groupBy('student.ID')
+        ->get();
+
+    $attendance = DB::table('users')
+        ->join('student', 'users.ID', '=', 'student.user_id')
+        ->leftJoin('attendance', 'attendance.student_id', '=', 'student.ID')
+        ->select('student.*', 'users.email', 'users.name', 'attendance', 'departure')
+        ->get();
+    $hours = [];
+    foreach ($attendance as $attend) {
+        $time = (strtotime($attend->departure) - strtotime($attend->attendance)) / 3600;
+        $hours[$attend->ID][] = $time;
+    }
+
+    $times = [];
+    foreach ($attendance as $attend) {
+        $sum = 0;
+        foreach ($hours[$attend->ID] as $hour) {
+            $sum = $sum + $hour;
+        }
+        $times[$attend->ID] = $sum;
+    }
 
     $links = DB::table('users')
-    ->join('student', 'users.ID', '=', 'student.user_id')
-    ->join('student_company','student.ID','=','student_company.student_id')
-    ->leftJoin('student_link','student_link.student_id','=','student.ID')
-    ->where('student_company.mentor_id','=',$mentor[0]->ID)
-    ->select('student.*', DB::raw("count(student_link.ID) as link") 
-    )
-    ->groupBy('student.ID')
-    ->get();
+        ->join('student', 'users.ID', '=', 'student.user_id')
+        ->join('student_company', 'student.ID', '=', 'student_company.student_id')
+        ->join('student_link', 'student_link.student_id', '=', 'student.ID')
+        ->where('student_company.mentor_id', '=', $mentor[0]->ID)
+        ->select('student.*', DB::raw('count(student_link.ID) as link'))
+        ->groupBy('student.ID')
+        ->get();
 
     $reports = DB::table('users')
-    ->join('student', 'users.ID', '=', 'student.user_id')
-    ->join('student_company','student.ID','=','student_company.student_id')
-    ->leftJoin('report','report.student_id','=','student.ID')
-    ->where('student_company.mentor_id','=',$mentor[0]->ID)
-    ->select('student.*', 'users.email',
-    DB::raw("count(report.ID) as report")
-    )
-    ->groupBy('student.ID')
-    ->get();
+        ->join('student', 'users.ID', '=', 'student.user_id')
+        ->join('student_company', 'student.ID', '=', 'student_company.student_id')
+        ->join('report', 'report.student_id', '=', 'student.ID')
+        ->where('student_company.mentor_id', '=', $mentor[0]->ID)
+        ->select('student.*', 'users.email', DB::raw('count(report.ID) as report'))
+        ->groupBy('student.ID')
+        ->get();
 
-    return view('company.dashboard',['students'=>$students,'links'=>$links,'reports'=>$reports]);
+    $trainees_count = DB::table('users')
+        ->join('student', 'users.ID', '=', 'student.user_id')
+        ->join('student_company', 'student.ID', '=', 'student_company.student_id')
+        ->join('company_mentor', 'student_company.mentor_id', '=', 'company_mentor.ID')
+        ->where('student_company.mentor_id', '=', $mentor[0]->ID)
+        ->get();
+
+    $years = ['2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030'];
+
+    $data = [];
+    foreach ($years as $year) {
+        $i = 0;
+        foreach ($trainees_count as $count) {
+            if (Str::contains($count->created_at, $year)) {
+                $i++;
+            }
+        }
+        $data[] = $i;
+    }
+
+    return view('company.dashboard', ['students' => $students, 'mentors' => $mentors, 'links' => $links, 'times' => $times, 'attendances' => $attendances, 'reports' => $reports, 'data' => $data]);
 })
     ->middleware(['auth', 'verified'])
     ->name('company.dashboard');
 
 Route::get('/university/dashboard', function () {
+
     $mentor = DB::table('university_mentor')
-    ->where('user_id','=',Auth::user()->id)
-    ->get();
-    
+        ->where('user_id', '=', Auth::user()->id)
+        ->get();
+
     $students = DB::table('users')
-    ->join('student', 'users.ID', '=', 'student.user_id')
-    ->join('student_university','student.ID','=','student_university.student_id')
-    ->leftJoin('attendance','attendance.student_id','=','student.ID')
-    ->where('student_university.mentor_id','=',$mentor[0]->ID)
-    ->select('student.*', 'users.email', 'users.name',DB::raw("count(attendance.ID) as attendance")
-    )
-    ->groupBy('student.ID')
-    ->get();
+        ->join('student', 'users.ID', '=', 'student.user_id')
+        ->join('student_university', 'student.ID', '=', 'student_university.student_id')
+        ->where('student_university.mentor_id', '=', $mentor[0]->ID)
+        ->select('student.*', 'users.email', 'users.name')
+        ->get();
+
+    $mentors = DB::table('users')
+        ->join('company_mentor', 'users.ID', '=', 'company_mentor.user_id')
+        ->join('student_company', 'company_mentor.ID', '=', 'student_company.mentor_id')
+        ->select('student_company.*', 'company_mentor.*', 'users.email', 'users.name')
+        ->get();
+
+    $attendance = DB::table('users')
+        ->join('student', 'users.ID', '=', 'student.user_id')
+        ->leftJoin('attendance', 'attendance.student_id', '=', 'student.ID')
+        ->select('student.*', 'users.email', 'users.name', 'attendance', 'departure')
+        ->get();
+    $hours = [];
+    foreach ($attendance as $attend) {
+        $time = (strtotime($attend->departure) - strtotime($attend->attendance)) / 3600;
+        $hours[$attend->ID][] = $time;
+    }
+
+    $times = [];
+    foreach ($attendance as $attend) {
+        $sum = 0;
+        foreach ($hours[$attend->ID] as $hour) {
+            $sum = $sum + $hour;
+        }
+        $times[$attend->ID] = $sum;
+    }
 
     $links = DB::table('users')
-    ->join('student', 'users.ID', '=', 'student.user_id')
-    ->join('student_university','student.ID','=','student_university.student_id')
-    ->leftJoin('student_link','student_link.student_id','=','student.ID')
-    ->where('student_university.mentor_id','=',$mentor[0]->ID)
-    ->select('student.*', DB::raw("count(student_link.ID) as link") 
-    )
-    ->groupBy('student.ID')
-    ->get();
+        ->join('student', 'users.ID', '=', 'student.user_id')
+        ->join('student_university', 'student.ID', '=', 'student_university.student_id')
+        ->join('student_link', 'student_link.student_id', '=', 'student.ID')
+        ->where('student_university.mentor_id', '=', $mentor[0]->ID)
+        ->select('student.*', DB::raw('count(student_link.ID) as link'))
+        ->groupBy('student.ID')
+        ->get();
 
     $reports = DB::table('users')
-    ->join('student', 'users.ID', '=', 'student.user_id')
-    ->join('student_university','student.ID','=','student_university.student_id')
-    ->leftJoin('report','report.student_id','=','student.ID')
-    ->where('student_university.mentor_id','=',$mentor[0]->ID)
-    ->select('student.*', 'users.email',
-    DB::raw("count(report.ID) as report")
-    )
-    ->groupBy('student.ID')
-    ->get();
+        ->join('student', 'users.ID', '=', 'student.user_id')
+        ->join('student_university', 'student.ID', '=', 'student_university.student_id')
+        ->join('report', 'report.student_id', '=', 'student.ID')
+        ->where('student_university.mentor_id', '=', $mentor[0]->ID)
+        ->select('student.*', 'users.email', DB::raw('count(report.ID) as report'))
+        ->groupBy('student.ID')
+        ->get();
 
-    return view('university.dashboard',['students'=>$students,'links'=>$links,'reports'=>$reports]);
+    return view('university.dashboard', ['students' => $students, 'mentors' => $mentors, 'links' => $links, 'times' => $times, 'reports' => $reports]);
 })
     ->middleware(['auth', 'verified'])
     ->name('university.dashboard');
@@ -253,7 +413,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
 
     Route::controller(Admin\ProfileController::class)->group(function () {
         Route::get('/admin/profile', 'edit')->name('admin.profile.edit');
@@ -302,18 +461,18 @@ Route::middleware('auth')->group(function () {
 
     Route::controller(Company\LinksController::class)->group(function () {
         Route::get('/trainee/{id}/links/', 'index')->name('company.links.index');
-         Route::get('/trainee/{id}/links/create', 'create')->name('company.links.insert');
+        Route::get('/trainee/{id}/links/create', 'create')->name('company.links.insert');
         Route::patch('/trainee/{id}/links/create', 'store')->name('company.links.store');
-      Route::delete('/trainee/{id}/links/', 'destroy')->name('company.links.destroy');
-         Route::get('/trainee/links/edit/{id}/{std}', 'edit')->name('company.links.edit');
+        Route::delete('/trainee/{id}/links/', 'destroy')->name('company.links.destroy');
+        Route::get('/trainee/links/edit/{id}/{std}', 'edit')->name('company.links.edit');
         Route::post('/trainee/links/update/{id}', 'update')->name('company.links.update');
     });
 
     Route::controller(Company\PlanController::class)->group(function () {
         Route::get('/trainee/{id}/plan/', 'index')->name('company.plan.index');
-          Route::get('/trainee/{id}/plan/create', 'create')->name('company.plan.insert');
+        Route::get('/trainee/{id}/plan/create', 'create')->name('company.plan.insert');
         Route::post('/trainee/{id}/plan/create', 'store')->name('company.plan.store');
-    Route::delete('/trainee/{id}/plan/', 'destroy')->name('company.plan.destroy');
+        Route::delete('/trainee/{id}/plan/', 'destroy')->name('company.plan.destroy');
     });
 
     Route::controller(University\PlanController::class)->group(function () {
@@ -322,9 +481,9 @@ Route::middleware('auth')->group(function () {
 
     Route::controller(Company\EvaluationController::class)->group(function () {
         Route::get('/company/{id}/evaluation/', 'index')->name('company.evaluation.index');
-          Route::get('/company/{id}/evaluation/create', 'create')->name('company.evaluation.insert');
+        Route::get('/company/{id}/evaluation/create', 'create')->name('company.evaluation.insert');
         Route::post('/company/{id}/evaluation/create', 'store')->name('company.evaluation.store');
-    Route::delete('/company/{id}/evaluation/', 'destroy')->name('company.evaluation.destroy');
+        Route::delete('/company/{id}/evaluation/', 'destroy')->name('company.evaluation.destroy');
     });
 
     Route::controller(University\EvaluationController::class)->group(function () {
@@ -333,10 +492,10 @@ Route::middleware('auth')->group(function () {
 
     Route::controller(Student\ReportController::class)->group(function () {
         Route::get('/trainee/report/', 'index')->name('student.report.index');
-          Route::get('/trainee/{id}/report/create', 'create')->name('student.report.insert');
+        Route::get('/trainee/{id}/report/create', 'create')->name('student.report.insert');
         Route::post('/trainee/{id}/report/create', 'store')->name('student.report.store');
-    Route::delete('/trainee/{id}/report/', 'destroy')->name('student.report.destroy');
-    Route::get('/trainee/report/edit/{id}/{std}', 'edit')->name('student.report.edit');
+        Route::delete('/trainee/{id}/report/', 'destroy')->name('student.report.destroy');
+        Route::get('/trainee/report/edit/{id}/{std}', 'edit')->name('student.report.edit');
         Route::post('/trainee/report/update/{id}', 'update')->name('student.report.update');
     });
 
@@ -350,7 +509,7 @@ Route::middleware('auth')->group(function () {
 
     Route::controller(Company\ReportController::class)->group(function () {
         Route::get('/company/{id}/report/', 'index')->name('company.report.index');
-    Route::get('/company/report/edit/{id}/{std}', 'edit')->name('company.report.edit');
+        Route::get('/company/report/edit/{id}/{std}', 'edit')->name('company.report.edit');
         Route::post('/company/report/update/{id}', 'update')->name('company.report.update');
     });
 
@@ -358,12 +517,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/hr/trainee/{id}/plan/', 'index')->name('hr.plan.index');
     });
 
-
-
     Route::controller(Admin\PlanController::class)->group(function () {
         Route::get('/admin/trainee/{id}/plan/', 'index')->name('admin.plan.index');
     });
-
 
     Route::controller(Company\HREvaluationController::class)->group(function () {
         Route::get('/hr/{id}/evaluation/', 'index')->name('hr.evaluation.index');
@@ -403,6 +559,10 @@ Route::middleware('auth')->group(function () {
         Route::post('/admin/trainee/update/{id}', 'update')->name('admin.trainees.update');
     });
 
+    Route::controller(HR\TraineesController::class)->group(function () {
+        Route::get('/hr/trainee/view/{id}', 'view')->name('hr.trainees.view');
+    });
+
     Route::controller(Company\TraineesController::class)->group(function () {
         Route::get('/company/trainee/view/{id}', 'view')->name('company.trainees.view');
     });
@@ -436,7 +596,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('/admin/university_mentor/delete/{id}', 'destroy')->name('admin.university.destroy');
         Route::get('/admin/university_mentor/view/{id}', 'view')->name('admin.university.view');
         Route::get('/admin/university_mentor/edit/{id}', 'edit')->name('admin.university.edit');
-        Route::patch('/admin/university_mentor/update/{id}', 'update')->name('admin.university.update');
+        Route::post('/admin/university_mentor/update/{id}', 'update')->name('admin.university.update');
     });
 });
 

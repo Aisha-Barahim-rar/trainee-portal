@@ -20,6 +20,13 @@ class HREvaluationController extends Controller
             ->select('student.*', 'student.ID as SID', 'users.email as semail', 'users.*', 'company_evaluation.*')
             ->get();
 
+        $mentor = DB::table('users')
+            ->join('company_mentor', 'users.ID', '=', 'company_mentor.user_id')
+            ->join('student_company', 'company_mentor.ID', '=', 'student_company.mentor_id')
+            ->select('student_company.*','company_mentor.*', 'users.email', 'users.name')
+            ->where('student_company.student_id', '=', $id)
+            ->first();
+
         $criterias = DB::table('criteria')
             ->leftJoin('scores', 'scores.criteria_id', '=', 'criteria.ID')
             ->leftJoin('company_evaluation', 'company_evaluation.ID', '=', 'scores.companye_id')
@@ -34,7 +41,7 @@ class HREvaluationController extends Controller
         return view(
             'company.hr-evaluation.view',
 
-            ['user' => $user[0], 'criterias' => $criterias, 'practical_evaluations' => $practical_evaluations]
+            ['user' => $user[0], 'criterias' => $criterias, 'practical_evaluations' => $practical_evaluations,'mentor'=>$mentor]
         );
     }
 

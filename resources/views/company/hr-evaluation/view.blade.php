@@ -16,9 +16,18 @@
                         </p>
                     @endif
                     <header>
-                        <h2 class="text-lg font-medium">
-                            {{ __('CO-OP Trainee Evaluation') }}
-                        </h2>
+                        <div class="grid grid-cols-2">
+                            <div>
+                                <h2 class="text-lg font-medium">
+                                    {{ __('CO-OP Trainee Evaluation') }}
+                                </h2>
+                            </div>
+                            <div class="place-self-end">
+                                <a class="text-gray-600" href="{{ route('hr.hr-evaluation.print', $user->ID) }}" target=_blank>
+                               <x-heroicon-o-printer class="flex-shrink-0 w-8 h-8" aria-hidden="true" />
+                                </a>
+                            </div>
+                        </div>
                     </header>
 
                     <form method="post" action="{{ route('hr.evaluation.store',$user->SID) }}">
@@ -112,7 +121,7 @@
                                 <div class="space-y-2">
                                     <x-form.label for="mentor_name" :value="__('Name')" />
                                     <x-form.input id="mentor_name" name="mentor_name" type="text"
-                                        class="block w-full" :value="old('mentor_name', $user->mentor_name)" autofocus
+                                        class="block w-full" :value="old('mentor_name', $user->mentor_name?$user->mentor_name:$mentor->name)" autofocus
                                         autocomplete="mentor_name" />
 
                                     <x-form.error :messages="$errors->get('mentor_name')" />
@@ -122,7 +131,7 @@
                                 <div class="space-y-2">
                                     <x-form.label for="mentor_department" :value="__('Department')" />
                                     <x-form.input id="mentor_department" name="mentor_department" type="text"
-                                        class="block w-full" :value="old('mentor_department', $user->mentor_department)" autofocus
+                                        class="block w-full" :value="old('mentor_department', $user->mentor_department?$user->mentor_department:$mentor->department)" autofocus
                                         autocomplete="mentor_department" />
 
                                     <x-form.error :messages="$errors->get('mentor_department')" />
@@ -145,7 +154,7 @@
                                     <x-form.label for="mentor_mobile" :value="__('Mobile')" />
 
                                     <x-form.input id="mentor_mobile" name="mentor_mobile" type="text"
-                                        class="block w-full" :value="old('mentor_mobile', $user->mentor_mobile)" autofocus
+                                        class="block w-full" :value="old('mentor_mobile', $user->mentor_mobile?$user->mentor_mobile:$mentor->mobile)" autofocus
                                         autocomplete="mentor_mobile" />
 
                                     <x-form.error :messages="$errors->get('mentor_mobile')" />
@@ -155,7 +164,7 @@
                                 <div class="space-y-2">
                                     <x-form.label for="mentor_email" :value="__('Email')" />
                                     <x-form.input id="mentor_email" name="mentor_email" type="email"
-                                        class="block w-full" :value="old('mentor_email', $user->mentor_email)" autocomplete="mentor_email" />
+                                        class="block w-full" :value="old('mentor_email', $user->mentor_email?$user->mentor_email:$mentor->email)" autocomplete="mentor_email" />
 
                                     <x-form.error :messages="$errors->get('mentor_email')" />
                                 </div>

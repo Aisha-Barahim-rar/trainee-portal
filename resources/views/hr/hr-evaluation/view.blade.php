@@ -285,8 +285,6 @@
                 </section>
 
             </div>
-
-
         </div>
     </div>
 </x-hr-layout>
