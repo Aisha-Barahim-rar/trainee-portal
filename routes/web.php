@@ -428,6 +428,7 @@ Route::middleware('auth')->group(function () {
 
     Route::controller(Student\AttendanceController::class)->group(function () {
         Route::get('/trainee/attendance/', 'index')->name('student.attendance.index');
+        Route::get('/trainee/{id}/attendance/export', 'export')->name('student.attendance.export');
     });
 
     Route::controller(Student\LinksController::class)->group(function () {

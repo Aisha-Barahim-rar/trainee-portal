@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
+use App\Models\AttendanceReport;
+use Maatwebsite\Excel\Facades\Excel;
 class AttendanceController extends Controller
 {
     /**
@@ -82,5 +84,18 @@ class AttendanceController extends Controller
     public function create(): View
     {
         return view('student.attendance.insert');
+    }
+
+    public function export($id,Request $request)
+    {
+        $user = DB::table('users')
+        ->join('student', 'users.ID', '=', 'student.user_id')
+        ->select('student.*', 'users.email', 'users.name')
+        ->where('student.ID',$id)
+        ->first();
+
+        $fileName = $user->name.' - attendance.Xlsx';
+
+        return (new AttendanceReport($id))->download($fileName);
     }
 }
