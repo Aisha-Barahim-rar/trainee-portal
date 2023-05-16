@@ -9,7 +9,21 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    {{ $user->name }}
+                    <header>
+                        <div class="grid grid-cols-2">
+                            <div>
+                                <h2 class="text-lg font-medium">
+                                    {{ $user->name }}
+                                </h2>
+                            </div>
+                            <div class="place-self-end">
+                                <a class="text-gray-600" href="{{ route('student.attendance.export', $user->ID) }}"
+                                    target=_blank>
+                                    <x-heroicon-o-save class="flex-shrink-0 w-8 h-8" aria-hidden="true" />
+                                </a>
+                            </div>
+                        </div>
+                    </header>
 
                     <div class="relative overflow-x-auto mt-4">
                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">

@@ -27,8 +27,21 @@
                             {{ __('Trainee\'s attendance has been updated successfully.') }}
                         </p>
                     @endif
-                    {{ $user->name }}
-
+                    <header>
+                        <div class="grid grid-cols-2">
+                            <div>
+                                <h2 class="text-lg font-medium">
+                                    {{ $user->name }}
+                                </h2>
+                            </div>
+                            <div class="place-self-end">
+                                <a class="text-gray-600" href="{{ route('student.attendance.export', $user->ID) }}"
+                                    target=_blank>
+                                    <x-heroicon-o-save class="flex-shrink-0 w-8 h-8" aria-hidden="true" />
+                                </a>
+                            </div>
+                        </div>
+                    </header>
                     <div class="relative overflow-x-auto mt-4">
                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead

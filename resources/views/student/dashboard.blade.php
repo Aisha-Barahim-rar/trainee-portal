@@ -14,9 +14,9 @@
                 <div class="h-full bg-[#f2ebde] overflow-hidden shadow-sm sm:rounded-lg py-4 px-4 mb-6 text-center">
 
                     <p class="text-md font-semibold leading-6 text-[#5f4d2e]">
-                        {{ $reports->count() }}</p>
+                        {{ $reports->report }}</p>
                     <p class="text-md font-medium leading-6 text-[#5f4d2e]">
-                        @if ($reports->count() > 1)
+                        @if ($reports->report > 1)
                             Reports
                         @else
                             Report
@@ -27,9 +27,9 @@
                 <div class="h-full bg-[#ebe1ce] overflow-hidden shadow-sm sm:rounded-lg py-4 px-4 mb-6 text-center">
 
                     <p class="text-md font-semibold leading-6 text-[#5f4d2e]">
-                        {{ $links->count() }}</p>
+                        {{ $links->link }}</p>
                     <p class="text-md font-medium leading-6 text-[#5f4d2e]">
-                        @if ($links->count() > 1)
+                        @if ($links->link > 1)
                             Shared Links
                         @else
                             Shared Link

@@ -65,17 +65,17 @@ Route::get('/admin/dashboard', function () {
 
     $links = DB::table('users')
         ->join('student', 'users.ID', '=', 'student.user_id')
-        ->join('student_link', 'student_link.student_id', '=', 'student.ID')
+        ->leftJoin('student_link', 'student_link.student_id', '=', 'student.ID')
         ->select('student.*', DB::raw('count(student_link.ID) as link'))
         ->groupBy('student.ID')
-        ->get();
+        ->first();
 
     $reports = DB::table('users')
         ->join('student', 'users.ID', '=', 'student.user_id')
-        ->join('report', 'report.student_id', '=', 'student.ID')
+        ->leftJoin('report', 'report.student_id', '=', 'student.ID')
         ->select('student.*', 'users.email', DB::raw('count(report.ID) as report'))
         ->groupBy('student.ID')
-        ->get();
+        ->first();
 
     $trainees_count = DB::table('users')
         ->join('student', 'users.ID', '=', 'student.user_id')
@@ -141,19 +141,19 @@ Route::get('/student/dashboard', function () {
 
     $links = DB::table('users')
         ->join('student', 'users.ID', '=', 'student.user_id')
-        ->join('student_link', 'student_link.student_id', '=', 'student.ID')
+        ->leftJoin('student_link', 'student_link.student_id', '=', 'student.ID')
         ->where('student.user_id', '=', Auth::user()->id)
         ->select('student.*', DB::raw('count(student_link.ID) as link'))
         ->groupBy('student.ID')
-        ->get();
+        ->first();
 
     $reports = DB::table('users')
         ->join('student', 'users.ID', '=', 'student.user_id')
-        ->join('report', 'report.student_id', '=', 'student.ID')
+        ->leftJoin('report', 'report.student_id', '=', 'student.ID')
         ->where('student.user_id', '=', Auth::user()->id)
         ->select('student.*', 'users.email', DB::raw('count(report.ID) as report'))
         ->groupBy('student.ID')
-        ->get();
+        ->first();
 
     return view('student.dashboard', ['students' => $students, 'mentors' => $mentors, 'links' => $links, 'times' => $times, 'reports' => $reports]);
 })
@@ -201,17 +201,17 @@ Route::get('/hr/dashboard', function () {
 
     $links = DB::table('users')
         ->join('student', 'users.ID', '=', 'student.user_id')
-        ->join('student_link', 'student_link.student_id', '=', 'student.ID')
+        ->leftJoin('student_link', 'student_link.student_id', '=', 'student.ID')
         ->select('student.*', DB::raw('count(student_link.ID) as link'))
         ->groupBy('student.ID')
-        ->get();
+        ->first();
 
     $reports = DB::table('users')
         ->join('student', 'users.ID', '=', 'student.user_id')
-        ->join('report', 'report.student_id', '=', 'student.ID')
+        ->leftJoin('report', 'report.student_id', '=', 'student.ID')
         ->select('student.*', 'users.email', DB::raw('count(report.ID) as report'))
         ->groupBy('student.ID')
-        ->get();
+        ->first();
 
     $trainees_count = DB::table('users')
         ->join('student', 'users.ID', '=', 'student.user_id')
@@ -289,20 +289,20 @@ Route::get('/company/dashboard', function () {
     $links = DB::table('users')
         ->join('student', 'users.ID', '=', 'student.user_id')
         ->join('student_company', 'student.ID', '=', 'student_company.student_id')
-        ->join('student_link', 'student_link.student_id', '=', 'student.ID')
+        ->leftJoin('student_link', 'student_link.student_id', '=', 'student.ID')
         ->where('student_company.mentor_id', '=', $mentor[0]->ID)
         ->select('student.*', DB::raw('count(student_link.ID) as link'))
         ->groupBy('student.ID')
-        ->get();
+        ->first();
 
     $reports = DB::table('users')
         ->join('student', 'users.ID', '=', 'student.user_id')
         ->join('student_company', 'student.ID', '=', 'student_company.student_id')
-        ->join('report', 'report.student_id', '=', 'student.ID')
+        ->leftJoin('report', 'report.student_id', '=', 'student.ID')
         ->where('student_company.mentor_id', '=', $mentor[0]->ID)
         ->select('student.*', 'users.email', DB::raw('count(report.ID) as report'))
         ->groupBy('student.ID')
-        ->get();
+        ->first();
 
     $trainees_count = DB::table('users')
         ->join('student', 'users.ID', '=', 'student.user_id')
@@ -371,20 +371,20 @@ Route::get('/university/dashboard', function () {
     $links = DB::table('users')
         ->join('student', 'users.ID', '=', 'student.user_id')
         ->join('student_university', 'student.ID', '=', 'student_university.student_id')
-        ->join('student_link', 'student_link.student_id', '=', 'student.ID')
+        ->leftJoin('student_link', 'student_link.student_id', '=', 'student.ID')
         ->where('student_university.mentor_id', '=', $mentor[0]->ID)
         ->select('student.*', DB::raw('count(student_link.ID) as link'))
         ->groupBy('student.ID')
-        ->get();
+        ->first();
 
     $reports = DB::table('users')
         ->join('student', 'users.ID', '=', 'student.user_id')
         ->join('student_university', 'student.ID', '=', 'student_university.student_id')
-        ->join('report', 'report.student_id', '=', 'student.ID')
+        ->leftJoin('report', 'report.student_id', '=', 'student.ID')
         ->where('student_university.mentor_id', '=', $mentor[0]->ID)
         ->select('student.*', 'users.email', DB::raw('count(report.ID) as report'))
         ->groupBy('student.ID')
-        ->get();
+        ->first();
 
     return view('university.dashboard', ['students' => $students, 'mentors' => $mentors, 'links' => $links, 'times' => $times, 'reports' => $reports]);
 })
