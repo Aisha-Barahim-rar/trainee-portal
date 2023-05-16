@@ -7,7 +7,7 @@ use App\Http\Controllers\Student;
 use App\Http\Controllers\Company;
 use App\Http\Controllers\University;
 use App\Http\Controllers\HR;
-
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 /*
 |--------------------------------------------------------------------------
@@ -51,7 +51,33 @@ Route::get('/admin/dashboard', function () {
     ->groupBy('student.ID')
     ->get();
 
-    return view('admin.dashboard',['students'=>$students,'links'=>$links,'reports'=>$reports]);
+    $trainees_count = DB::table('users')
+    ->join('student', 'users.ID', '=', 'student.user_id')
+    ->join('student_company','student.ID','=','student_company.student_id')
+    ->join('company_mentor','student_company.mentor_id','=','company_mentor.ID')
+    ->get();
+
+    $years= ["2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"];
+    $departments = ["Human Resources", "Information Technology", "Accounts - Real Estate", "Accounts - BTH",
+                    "Investment"];
+    $data = [];
+    $dept = 0;
+    foreach($departments as $department) {
+        
+        foreach($years as $year) {
+            $i = 0;
+            foreach($trainees_count as $count) {
+                if($count->department==$department && Str::contains($count->created_at, $year)){
+                    $i++;
+                }
+            } 
+            $data[$dept][] = $i;
+    } 
+    $dept = $dept+1;  
+    } 
+
+   
+    return view('admin.dashboard',['students'=>$students,'links'=>$links,'reports'=>$reports, 'data'=>$data]);
 })
     ->middleware(['auth', 'verified'])
     ->name('admin.dashboard');

@@ -65,9 +65,15 @@
                                     <x-slot name="icon">
                                         <x-heroicon-o-user-group aria-hidden="true" class="w-5 h-5" />
                                     </x-slot>
+                                    <x-form.select withicon id="select" class="block w-full" name="department">
+                                        <option disabled selected value> -- select an option -- </option>
+                                        <option value="Human Resources" @if($company_mentor->department==="Human Resources") selected @endif>Human Resources</option>
+                                        <option value="Information Technology" @if($company_mentor->department==="Information Technology") selected @endif>Information Technology</option>
+                                        <option value="Accounts - Real Estate" @if($company_mentor->department==="Accounts - Real Estate") selected @endif>Accounts - Real Estate</option>
+                                        <option value="Accounts - BTH" @if($company_mentor->department==="Accounts - BTH") selected @endif>Accounts - BTH</option>
+                                        <option value="Investment" @if($company_mentor->department==="Investment") selected @endif>Investment</option>
+                                    </x-form.select>
 
-                                    <x-form.input withicon id="department" class="block w-full" type="text"
-                                        name="department" :value="old('department', $company_mentor->department)" placeholder="{{ __('Department') }}" />
                                 </x-form.input-with-icon-wrapper>
                             </div>
 

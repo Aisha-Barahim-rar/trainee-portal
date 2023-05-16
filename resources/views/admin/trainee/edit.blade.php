@@ -59,15 +59,15 @@
 
                             <!-- Academic ID -->
                             <div class="space-y-2">
-                                <x-form.label for="academic" :value="__('Academic ID')" />
+                                <x-form.label for="academic_id" :value="__('Academic ID')" />
 
                                 <x-form.input-with-icon-wrapper>
                                     <x-slot name="icon">
                                         <x-heroicon-o-identification aria-hidden="true" class="w-5 h-5" />
                                     </x-slot>
 
-                                    <x-form.input withicon id="academic" class="block w-full" type="text"
-                                        name="academic" :value="old('academic', $student->academic_id)" placeholder="{{ __('Academic ID') }}" />
+                                    <x-form.input withicon id="academic_id" class="block w-full" type="text"
+                                        name="academic_id" :value="old('academic', $student->academic_id)" placeholder="{{ __('Academic ID') }}" />
                                 </x-form.input-with-icon-wrapper>
                             </div>
 
@@ -98,6 +98,21 @@
                                         name="major" :value="old('major', $student->major)" placeholder="{{ __('Major') }}" />
                                 </x-form.input-with-icon-wrapper>
                             </div>
+
+                            <!-- hours -->
+                            <div class="space-y-2">
+                                <x-form.label for="hours" :value="__('Training Hours')" />
+
+                                <x-form.input-with-icon-wrapper>
+                                    <x-slot name="icon">
+                                        <x-heroicon-o-clock aria-hidden="true" class="w-5 h-5" />
+                                    </x-slot>
+
+                                    <x-form.input withicon id="hours" class="block w-full" type="number"
+                                        name="hours" :value="old('hours', $student->hours)" placeholder="{{ __('Training Hours') }}" />
+                                </x-form.input-with-icon-wrapper>
+                            </div>
+
                             <input id="user_id" name="user_id" type="hidden" value={{ $student->user_id }} />
 
                             <div class="flex justify-end sm:flex-col sm:items-end mt-6">

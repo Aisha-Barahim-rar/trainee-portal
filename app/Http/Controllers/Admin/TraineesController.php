@@ -135,7 +135,8 @@ class TraineesController extends Controller
             'mobile' => $request->mobile,
             'academic_id' => $request->academic_id,
             'university' => $request->university,
-            'major' => $request->major
+            'major' => $request->major,
+            'hours' => $request->hours
     ]);
         
 
