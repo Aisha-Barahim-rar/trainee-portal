@@ -564,6 +564,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/hr/trainee/view/{id}', 'view')->name('hr.trainees.view');
     });
 
+    Route::controller(University\TraineesController::class)->group(function () {
+        Route::get('/university/trainee/view/{id}', 'view')->name('university.trainees.view');
+    });
+
     Route::controller(Company\TraineesController::class)->group(function () {
         Route::get('/company/trainee/view/{id}', 'view')->name('company.trainees.view');
     });

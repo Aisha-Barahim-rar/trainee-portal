@@ -59,7 +59,7 @@
                         class="py-6 px-6 border rounded-md mb-4 bg-gray-50 border-gray-50 grid grid-cols-3 md:items-center gap-4">
                         <div class="space-y-2">
                             <p class="text-sm font-semibold leading-6 text-gray-700">
-                                <a href="{{ route('hr.trainees.view', $student->ID) }}">
+                                <a href="{{ route('student.profile.edit') }}">
                                     {{ $student->name }}
                                 </a>
                             </p>
