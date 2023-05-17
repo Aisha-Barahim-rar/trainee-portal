@@ -19,6 +19,7 @@ class AttendanceController extends Controller
         //get full user
         $attendance = DB::table('attendance')
         ->where('student_id','=',$id)
+        ->orderBy("date")
         ->get();
 
         $user = DB::table('student')
