@@ -262,17 +262,47 @@
                                                     <x-form.select id="select{{$loop->index}}" name="score[{{$loop->index}}]" class="score block w-full"
                                                         >
                                                         <option value=""
-                                                            @if ($criteria->score === '') selected @endif></option>
+                                                        @foreach($scores as $score)
+                                                        @if($score->criteria_id=== $criteria->ID && $score->companye_id===$user->ID)
+                                                            @if ($score->score === '') selected @endif
+                                                        @endif
+                                                        @endforeach
+                                                            ></option>
                                                         <option value="1"
-                                                            @if ($criteria->score === 1 && $criteria->student_id === $user->SID) selected @endif>1</option>
+                                                        @foreach($scores as $score)
+                                                        @if($score->criteria_id=== $criteria->ID && $score->companye_id===$user->ID)
+                                                            @if ($score->score === 1) selected @endif
+                                                        @endif
+                                                        @endforeach
+                                                            >1</option>
                                                         <option value="2"
-                                                            @if ($criteria->score === 2 && $criteria->student_id === $user->SID) selected @endif>2</option>
+                                                            @foreach($scores as $score)
+                                                        @if($score->criteria_id=== $criteria->ID && $score->companye_id===$user->ID)
+                                                            @if ($score->score === 2) selected @endif
+                                                        @endif
+                                                        @endforeach
+                                                            >2</option>
                                                         <option value="3"
-                                                            @if ($criteria->score === 3 && $criteria->student_id === $user->SID) selected @endif>3</option>
+                                                            @foreach($scores as $score)
+                                                        @if($score->criteria_id=== $criteria->ID && $score->companye_id===$user->ID)
+                                                            @if ($score->score === 3) selected @endif
+                                                        @endif
+                                                        @endforeach
+                                                            >3</option>
                                                         <option value="4"
-                                                            @if ($criteria->score === 4 && $criteria->student_id === $user->SID) selected @endif>4</option>
+                                                            @foreach($scores as $score)
+                                                        @if($score->criteria_id=== $criteria->ID && $score->companye_id===$user->ID)
+                                                            @if ($score->score === 4) selected @endif
+                                                        @endif
+                                                        @endforeach
+                                                            >4</option>
                                                         <option value="5"
-                                                            @if ($criteria->score === 5 && $criteria->student_id === $user->SID) selected @endif>5</option>
+                                                            @foreach($scores as $score)
+                                                        @if($score->criteria_id=== $criteria->ID && $score->companye_id===$user->ID)
+                                                            @if ($score->score === 5) selected @endif
+                                                        @endif
+                                                        @endforeach
+                                                            >5</option>
                                                     </x-form.select>
                                                 </td>
                                             </tr>
