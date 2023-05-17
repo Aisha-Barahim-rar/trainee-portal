@@ -27,6 +27,7 @@ class AttendanceController extends Controller
 
         $attendance = DB::table('attendance')
         ->where('student_id','=',$user[0]->ID)
+        ->orderBy("date")
         ->get();
 
         return view('student.attendance.view', [
