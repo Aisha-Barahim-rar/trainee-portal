@@ -93,8 +93,9 @@ class AttendanceController extends Controller
 
     public function destroy($id,Request $request): RedirectResponse
     {
+        $student_id = DB::table('attendance') ->find($id);
         DB::table('attendance')
-       ->where('student_id','=',$id)->delete();
-        return Redirect::route('company.attendance.index',[$id])->with('status', 'attendance-deleted');
+        ->where('ID','=',$id)->delete();
+        return Redirect::route('company.attendance.index',[$student_id->student_id])->with('status', 'attendance-deleted');
     }
 }

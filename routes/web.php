@@ -191,19 +191,11 @@ Route::get('/hr/dashboard', function () {
         $times[$attend->ID] = $sum;
     }
 
-    $links = DB::table('users')
-        ->join('student', 'users.ID', '=', 'student.user_id')
-        ->leftJoin('student_link', 'student_link.student_id', '=', 'student.ID')
-        ->select('student.*', DB::raw('count(student_link.ID) as link'))
-        ->groupBy('student.ID')
-        ->first();
+    $links = DB::table('student_link')
+        ->get();
 
-    $reports = DB::table('users')
-        ->join('student', 'users.ID', '=', 'student.user_id')
-        ->leftJoin('report', 'report.student_id', '=', 'student.ID')
-        ->select('student.*', 'users.email', DB::raw('count(report.ID) as report'))
-        ->groupBy('student.ID')
-        ->first();
+    $reports = DB::table('report')
+        ->get();
 
     $trainees_count = DB::table('users')
         ->join('student', 'users.ID', '=', 'student.user_id')

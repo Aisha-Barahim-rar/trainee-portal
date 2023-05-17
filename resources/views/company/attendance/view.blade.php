@@ -75,22 +75,22 @@
                                             {{ $record->departure }}
                                         </td>
                                         <td class="px-6 py-4">
-                                        <div class="flex justify-end sm:flex-col sm:items-end">
-                                            <div class="inline-flex rounded-md shadow-sm" role="group">
-                                                <x-button variant="secondary"
-                                                    href="{{ route('company.attendance.edit', $record->ID) }}" :squared=true
-                                                    class="rounded-l-md border-t border-b border-r">
-                                                    <x-heroicon-o-pencil-alt class="flex-shrink-0 w-6 h-6"
-                                                        aria-hidden="true" />
-                                                </x-button>
-                                                <x-button variant="danger" x-data=""
-                                                    x-on:click.prevent="$dispatch('open-modal', 'confirm-attendance-deletion-{{ $user->ID }}')"
-                                                    :squared=true class="rounded-r-md">
-                                                    <x-heroicon-o-trash class="flex-shrink-0 w-6 h-6"
-                                                        aria-hidden="true" />
-                                                </x-button>
+                                            <div class="flex justify-end sm:flex-col sm:items-end">
+                                                <div class="inline-flex rounded-md shadow-sm" role="group">
+                                                    <x-button variant="secondary"
+                                                        href="{{ route('company.attendance.edit', $record->ID) }}"
+                                                        :squared=true class="rounded-l-md border-t border-b border-r">
+                                                        <x-heroicon-o-pencil-alt class="flex-shrink-0 w-6 h-6"
+                                                            aria-hidden="true" />
+                                                    </x-button>
+                                                    <x-button variant="danger" x-data=""
+                                                        x-on:click.prevent="$dispatch('open-modal', 'confirm-attendance-deletion-{{ $record->ID }}')"
+                                                        :squared=true class="rounded-r-md">
+                                                        <x-heroicon-o-trash class="flex-shrink-0 w-6 h-6"
+                                                            aria-hidden="true" />
+                                                    </x-button>
+                                                </div>
                                             </div>
-                                        </div>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -109,29 +109,31 @@
             </div>
         </div>
     </div>
-    <x-modal name="confirm-attendance-deletion-{{ $user->ID }}" :show="$errors->userDeletion->isNotEmpty()" focusable>
-            <form method="post" action="{{ route('company.attendance.destroy', $user->ID) }}" class="p-6">
-                @csrf
-                @method('delete')
+    @foreach ($attendance as $record)
+    <x-modal name="confirm-attendance-deletion-{{ $record->ID }}" :show="$errors->userDeletion->isNotEmpty()" focusable>
+        <form method="post" action="{{ route('company.attendance.destroy', $record->ID) }}" class="p-6">
+            @csrf
+            @method('delete')
 
-                <h2 class="text-lg font-medium">
-                    {{ __('Are you sure you want to delete this attendance record?') }}
-                </h2>
+            <h2 class="text-lg font-medium">
+                {{ __('Are you sure you want to delete this attendance record?') }}
+            </h2>
 
-                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    {{ __('This record will be permanently deleted.') }}
-                </p>
+            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                {{ __('This record will be permanently deleted.') }}
+            </p>
 
 
-                <div class="mt-6 flex justify-end">
-                    <x-button type="button" variant="secondary" x-on:click="$dispatch('close')">
-                        {{ __('Cancel') }}
-                    </x-button>
+            <div class="mt-6 flex justify-end">
+                <x-button type="button" variant="secondary" x-on:click="$dispatch('close')">
+                    {{ __('Cancel') }}
+                </x-button>
 
-                    <x-button variant="danger" class="ml-3">
-                        {{ __('Delete') }}
-                    </x-button>
-                </div>
-            </form>
-        </x-modal>
+                <x-button variant="danger" class="ml-3">
+                    {{ __('Delete') }}
+                </x-button>
+            </div>
+        </form>
+    </x-modal>
+    @endforeach
 </x-company-layout>
