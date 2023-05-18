@@ -15,7 +15,7 @@
     x-on:mouseenter="handleSidebarHover(true)"
     x-on:mouseleave="handleSidebarHover(false)"
 >
-    <x-sidebar.header />
+    <x-hr.sidebar.header />
 
     <x-hr.sidebar.content :students="$students" />
 

@@ -78,7 +78,7 @@
         <x-heroicon-o-search aria-hidden="true" class="w-6 h-6" />
     </x-button>
 
-    <a href="{{ route('admin.dashboard') }}">
+    <a href="{{ route('hr.dashboard') }}">
             <img src="/images/Picture1.svg" class="w-10 h-auto">
       <!--  <x-application-logo aria-hidden="true" class="w-10 h-10" /> -->
 

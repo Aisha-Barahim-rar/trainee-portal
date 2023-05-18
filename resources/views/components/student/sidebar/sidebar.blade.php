@@ -11,7 +11,7 @@
     x-on:mouseenter="handleSidebarHover(true)"
     x-on:mouseleave="handleSidebarHover(false)"
 >
-    <x-sidebar.header />
+    <x-student.sidebar.header />
 
     <x-student.sidebar.content />
 
