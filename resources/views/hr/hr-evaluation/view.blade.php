@@ -22,11 +22,13 @@
                                     {{ __('CO-OP Trainee Evaluation') }}
                                 </h2>
                             </div>
+                            @if($user->ID)
                             <div class="place-self-end">
                                 <a class="text-gray-600" href="{{ route('hr.hr-evaluation.print', $user->ID) }}" target=_blank>
                                <x-heroicon-o-printer class="flex-shrink-0 w-8 h-8" aria-hidden="true" />
                                 </a>
                             </div>
+                            @endif
                         </div>
                     </header>
                     <div class="mt-6 mb-4 py-4 px-4 border-b border-gray-300 dark:border-gray-700">
