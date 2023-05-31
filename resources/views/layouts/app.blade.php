@@ -46,6 +46,8 @@
                 style="transition-property: margin; transition-duration: 150ms;"
             >
 
+                <!-- Navbar -->
+                <x-navbar />
                 <!-- Page Heading -->
                 <header>
                     <div class="p-4 sm:p-6">
