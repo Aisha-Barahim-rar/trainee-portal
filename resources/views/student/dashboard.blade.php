@@ -32,7 +32,7 @@
                         @if ($links->link > 1)
                             Shared Links
                         @else
-                            Shared Link
+                            Learning Materials
                         @endif
                     </p>
                 </div>

@@ -57,7 +57,7 @@
 
     </x-sidebar.dropdown>
 
-        <x-sidebar.dropdown title="Important Links" :active="Str::contains(
+        <x-sidebar.dropdown title="Learning Materials" :active="Str::contains(
         request()
             ->route()
             ->uri(),
