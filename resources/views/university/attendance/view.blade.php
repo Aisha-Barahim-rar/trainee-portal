@@ -39,6 +39,9 @@
                                     <th scope="col" class="px-6 py-3">
                                         Time Out
                                     </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Notes
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -53,6 +56,9 @@
                                         </td>
                                         <td class="px-6 py-4">
                                             {{ $record->departure }}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            {{ $record->notes }}
                                         </td>
                                     </tr>
                                 @endforeach

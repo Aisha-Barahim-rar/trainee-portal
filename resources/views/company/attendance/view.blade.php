@@ -57,6 +57,9 @@
                                         Time Out
                                     </th>
                                     <th scope="col" class="px-6 py-3">
+                                        Notes
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
 
                                     </th>
                                 </tr>
@@ -73,6 +76,9 @@
                                         </td>
                                         <td class="px-6 py-4">
                                             {{ $record->departure }}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            {{ $record->notes }}
                                         </td>
                                         <td class="px-6 py-4">
                                             <div class="flex justify-end sm:flex-col sm:items-end">

@@ -57,7 +57,8 @@ class AttendanceController extends Controller
         ->update([
             'date' => $request->date,
             'attendance' => $request->timein,
-            'departure' => $request->timeout
+            'departure' => $request->timeout,
+            'notes' => $request->notes
     ]);
 
     $attendance = DB::table('attendance')
@@ -86,6 +87,7 @@ class AttendanceController extends Controller
             'date' => $request->date,
             'attendance' => $request->timein,
             'departure' => $request->timeout,
+            'notes' => $request->notes,
             'student_id' => $id,
         ]);
 

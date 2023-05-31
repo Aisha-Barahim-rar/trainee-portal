@@ -4,8 +4,8 @@
             {{ __('Update Password') }}
         </h2>
 
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            {{ __('Ensure your account is using a long, random password to stay secure.') }}
+        <p class="mt-1 text-sm text-red-600 dark:text-red-400">
+            {{ __('You are logged in for the first time, please consider updating your password.') }}
         </p>
     </header>
 

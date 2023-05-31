@@ -58,6 +58,20 @@
                                 </x-form.input-with-icon-wrapper>
                             </div>
 
+                             <!-- Notes -->
+                            <div class="space-y-2">
+                                <x-form.label for="notes" :value="__('Notes')" />
+
+                                <x-form.input-with-icon-wrapper>
+                                    <x-slot name="icon">
+                                        <x-heroicon-o-pencil-alt aria-hidden="true" class="w-5 h-5" />
+                                    </x-slot>
+
+                                    <x-form.input withicon id="notes" class="block w-full" type="text"
+                                        name="notes" :value="old('notes')" required placeholder="{{ __('Notes') }}" />
+                                </x-form.input-with-icon-wrapper>
+                            </div>
+
 
                             <div class="flex justify-end sm:flex-col sm:items-end mt-6">
                                 <div>

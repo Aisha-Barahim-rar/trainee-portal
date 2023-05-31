@@ -22,8 +22,9 @@ class PasswordController extends Controller
 
         $request->user()->update([
             'password' => Hash::make($validated['password']),
+            'password_change_at' => \Carbon\Carbon::now()->toDateTimeString(),
         ]);
 
-        return back()->with('status', 'password-updated');
+        return redirect(route('login'))->with('status', 'password-updated');
     }
 }

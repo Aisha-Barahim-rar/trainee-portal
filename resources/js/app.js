@@ -74,15 +74,46 @@ const getTheme=()=> {
 
         window.addEventListener("DOMContentLoaded", (e) => {
 
+            if(document.getElementById("type")){
+                document.getElementById("type").onchange = function() {linkOrFile()};
+                if(document.getElementById("type").value === "Hyperlink") {
+                    document.getElementById("input1").style.display = "block";
+                    document.getElementById("input2").style.display = "none";
+                }
+                else if(document.getElementById("type").value === "File"){
+                    document.getElementById("input2").style.display = "block";
+                    document.getElementById("input1").style.display = "none";
+                }
+                else {
+                    document.getElementById("input2").style.display = "none";
+                    document.getElementById("input1").style.display = "none";
+                }
+            }
+
+            function linkOrFile() {
+                if(document.getElementById("type").value === "Hyperlink") {
+                    document.getElementById("input1").style.display = "block";
+                    document.getElementById("input2").style.display = "none";
+                }
+                else if(document.getElementById("type").value === "File"){
+                    document.getElementById("input2").style.display = "block";
+                    document.getElementById("input1").style.display = "none";
+                }
+                else {
+                    document.getElementById("input2").style.display = "none";
+                    document.getElementById("input1").style.display = "none";
+                }
+            }
+
             totalCalc(1);
             function myFunction(i) {
                 var button_id = document.getElementById(i).getAttribute('id');
                 document.querySelector('#row' + button_id + '').remove();
             }
             
-if(document.getElementById("add")){
-    document.getElementById("add").onclick = function() {myFunction2()};
-}
+        if(document.getElementById("add")){
+            document.getElementById("add").onclick = function() {myFunction2()};
+        }
             
 
             var times = 10;

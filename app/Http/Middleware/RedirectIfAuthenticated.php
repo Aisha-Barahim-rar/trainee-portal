@@ -16,26 +16,27 @@ class RedirectIfAuthenticated
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
 
-     
     public function handle(Request $request, Closure $next, string ...$guards): Response
     {
         $guards = empty($guards) ? [null] : $guards;
 
-        
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                if(Auth::user()->role=="admin"){
-                    return redirect(RouteServiceProvider::ADMIN);
-                }elseif(Auth::user()->role=="student"){
-                    return redirect(RouteServiceProvider::STUDENT);
-                }elseif(Auth::user()->role=="hr"){
-                    return redirect(RouteServiceProvider::HR);
-                }elseif(Auth::user()->role=="company"){
-                    return redirect(RouteServiceProvider::COMPANY);
-                }elseif(Auth::user()->role=="university"){
-                    return redirect(RouteServiceProvider::UNIVERSITY);
+                if (Auth::user()->password_change_at == null) {
+                    return redirect(route('profile.edit'));
+                } else {
+                    if (Auth::user()->role == 'admin') {
+                        return redirect(RouteServiceProvider::ADMIN);
+                    } elseif (Auth::user()->role == 'student') {
+                        return redirect(RouteServiceProvider::STUDENT);
+                    } elseif (Auth::user()->role == 'hr') {
+                        return redirect(RouteServiceProvider::HR);
+                    } elseif (Auth::user()->role == 'company') {
+                        return redirect(RouteServiceProvider::COMPANY);
+                    } elseif (Auth::user()->role == 'university') {
+                        return redirect(RouteServiceProvider::UNIVERSITY);
+                    }
                 }
-                
             }
         }
 
