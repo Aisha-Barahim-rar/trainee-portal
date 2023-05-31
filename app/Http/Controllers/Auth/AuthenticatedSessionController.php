@@ -31,29 +31,19 @@ class AuthenticatedSessionController extends Controller
         if (Auth::user()->password_change_at == null) {
             return redirect(route('profile.edit'));
         } else {
-        if (Auth::user()->role == 'admin') {
-            
+            if (Auth::user()->role == 'admin') {
                 return redirect(RouteServiceProvider::ADMIN);
-
-        } elseif (Auth::user()->role == 'student') {
-
-            return redirect(RouteServiceProvider::STUDENT);
-
-        } elseif (Auth::user()->role == 'hr') {
-
-            return redirect(RouteServiceProvider::HR);
-
-        } elseif (Auth::user()->role == 'company') {
-
-            return redirect(RouteServiceProvider::COMPANY);
-
-        } elseif (Auth::user()->role == 'university') {
-
-            return redirect(RouteServiceProvider::UNIVERSITY);
-
+            } elseif (Auth::user()->role == 'student') {
+                return redirect(RouteServiceProvider::STUDENT);
+            } elseif (Auth::user()->role == 'hr') {
+                return redirect(RouteServiceProvider::HR);
+            } elseif (Auth::user()->role == 'company') {
+                return redirect(RouteServiceProvider::COMPANY);
+            } elseif (Auth::user()->role == 'university') {
+                return redirect(RouteServiceProvider::UNIVERSITY);
+            }
         }
     }
-}
 
     /**
      * Destroy an authenticated session.

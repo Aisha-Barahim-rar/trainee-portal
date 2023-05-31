@@ -35,7 +35,7 @@
                                 class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
                                     <th scope="col" class="px-6 py-3">
-                                        Link
+                                        Learning Material
                                     </th>
                                 </tr>
                             </thead>
@@ -44,7 +44,11 @@
                                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                         <th scope="row"
                                             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            @if($link->type=="Hyperlink")
                                             <a href="{{ $link->link }}" target=_blank ><span style="text-overflow: ellipsis;">{{ $link->link }}</span></a>
+                                            @else
+                                            <a href="/files/{{$user->ID}}/{{ $link->link }}" target=_blank ><span style="text-overflow: ellipsis;">{{ $link->link }}</span></a>
+                                            @endif
                                             
                                         </th>
                                     </tr>

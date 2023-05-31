@@ -27,13 +27,13 @@ class AttendanceReport implements FromQuery,WithHeadings
     public function query()
     {
         
-        return DB::table('attendance')->select("date","attendance","departure")
+        return DB::table('attendance')->select("date","attendance","departure","notes")
         ->where('student_id','=',$this->id)->orderBy('date');
     }
 
     public function headings(): array
     {
-        return ["Date", "Time In", "Time out"];
+        return ["Date", "Time In", "Time out","Notes"];
     }
 
 }

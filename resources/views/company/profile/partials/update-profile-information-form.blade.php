@@ -69,8 +69,14 @@
         <div class="space-y-2">
             <x-form.label for="department" :value="__('Department')" />
 
-            <x-form.input id="department" name="department" type="text" class="block w-full" :value="old('department', $user->department)"
-                 autofocus autocomplete="department" />
+                                    <x-form.select  id="select" class="block w-full" name="department">
+                                        <option disabled selected value> -- select an option -- </option>
+                                        <option value="Human Resources" @if($user->department==="Human Resources") selected @endif>Human Resources</option>
+                                        <option value="Information Technology" @if($user->department==="Information Technology") selected @endif>Information Technology</option>
+                                        <option value="Accounts - Real Estate" @if($user->department==="Accounts - Real Estate") selected @endif>Accounts - Real Estate</option>
+                                        <option value="Accounts - BTH" @if($user->department==="Accounts - BTH") selected @endif>Accounts - BTH</option>
+                                        <option value="Investment" @if($user->department==="Investment") selected @endif>Investment</option>
+                                    </x-form.select>
 
             <x-form.error :messages="$errors->get('department')" />
         </div>
