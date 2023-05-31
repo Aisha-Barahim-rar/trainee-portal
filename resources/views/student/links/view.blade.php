@@ -1,7 +1,7 @@
 <x-student-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Important Links') }}
+            {{ __('Learning Materials') }}
         </h2>
     </x-slot>
 
@@ -18,13 +18,13 @@
                     @if (session('status') === 'link-deleted')
                         <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 4000)"
                             class="text-sm mt-2 mb-6 font-medium text-red-600">
-                            {{ __('Link has been deleted successfully.') }}
+                            {{ __('Material has been deleted successfully.') }}
                         </p>
                     @endif
                     @if (session('status') === 'link-updated')
                         <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 4000)"
                             class="text-sm mt-2 mb-6 font-medium text-green-600">
-                            {{ __('Link has been updated successfully.') }}
+                            {{ __('Material has been updated successfully.') }}
                         </p>
                     @endif
                     {{ $user->name }}
