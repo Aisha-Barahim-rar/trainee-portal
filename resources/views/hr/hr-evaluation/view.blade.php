@@ -184,18 +184,60 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($criterias as $criteria)
-                                        <tr>
-                                            <td class="px-6 py-4 border border-slate-300">
-                                                {{ $criteria->criteria }}
-                                            </td>
-                                            <td class="px-6 py-4 border border-slate-300">
-                                                @if ($criteria->student_id === $user->SID)
-                                                    {{ $criteria->score }}
-                                                @endif
+                                            <tr>
+                                                <td class="px-6 py-4 border border-slate-300">
+                                                    {{ $criteria->criteria }}
+                                                </td>
+                                                <td class="px-6 py-4 border border-slate-300">
 
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                                    <x-form.select id="select{{$loop->index}}" name="score[{{$loop->index}}]" class="score block w-full"
+                                                        >
+                                                        <option value=""
+                                                        @foreach($scores as $score)
+                                                        @if($score->criteria_id=== $criteria->ID && $score->companye_id===$user->ID)
+                                                            @if ($score->score === '') selected @endif
+                                                        @endif
+                                                        @endforeach
+                                                            ></option>
+                                                        <option value="1"
+                                                        @foreach($scores as $score)
+                                                        @if($score->criteria_id=== $criteria->ID && $score->companye_id===$user->ID)
+                                                            @if ($score->score === 1) selected @endif
+                                                        @endif
+                                                        @endforeach
+                                                            >1</option>
+                                                        <option value="2"
+                                                            @foreach($scores as $score)
+                                                        @if($score->criteria_id=== $criteria->ID && $score->companye_id===$user->ID)
+                                                            @if ($score->score === 2) selected @endif
+                                                        @endif
+                                                        @endforeach
+                                                            >2</option>
+                                                        <option value="3"
+                                                            @foreach($scores as $score)
+                                                        @if($score->criteria_id=== $criteria->ID && $score->companye_id===$user->ID)
+                                                            @if ($score->score === 3) selected @endif
+                                                        @endif
+                                                        @endforeach
+                                                            >3</option>
+                                                        <option value="4"
+                                                            @foreach($scores as $score)
+                                                        @if($score->criteria_id=== $criteria->ID && $score->companye_id===$user->ID)
+                                                            @if ($score->score === 4) selected @endif
+                                                        @endif
+                                                        @endforeach
+                                                            >4</option>
+                                                        <option value="5"
+                                                            @foreach($scores as $score)
+                                                        @if($score->criteria_id=== $criteria->ID && $score->companye_id===$user->ID)
+                                                            @if ($score->score === 5) selected @endif
+                                                        @endif
+                                                        @endforeach
+                                                            >5</option>
+                                                    </x-form.select>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     <tr>
                                         <td class="px-6 py-4 border border-slate-300 font-semibold">
                                             Total Score
