@@ -122,11 +122,11 @@
                         </div>
                         <div class="space-y-2">
                             <p class="text-sm font-medium leading-6 text-gray-600">
-                                @foreach ($times as $i => $time)
+                               @foreach ($times as $i => $time)
                                     @if ($i === $student->ID)
-                                        {{ round(($time / $student->hours) * 100) }}
+                                        {{ $time }}
                                     @endif
-                                @endforeach %
+                                @endforeach out of  {{ $student->hours}} days
                             </p>
                             <div class=" bg-gray-200 h-1 w-full rounded-full" x-data="{
                                 val: @foreach ($times as $i => $time)
