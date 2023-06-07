@@ -245,6 +245,7 @@
                                     borderDash: [5, 5],
                                 },
                                 ticks: {
+                                    stepSize: 1,
                                     display: true,
                                     color: "#b2b9bf",
                                     padding: 20,

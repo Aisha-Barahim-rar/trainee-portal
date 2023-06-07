@@ -223,6 +223,7 @@
                                     borderDash: [5, 5],
                                 },
                                 ticks: {
+                                    stepSize: 1,
                                     display: true,
                                     padding: 10,
                                     color: "#b2b9bf",

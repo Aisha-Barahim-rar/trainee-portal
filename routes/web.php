@@ -43,24 +43,9 @@ Route::get('/admin/dashboard', function () {
         ->groupBy('student.ID')
         ->get();
 
-    $attendance = DB::table('users')
-        ->join('student', 'users.ID', '=', 'student.user_id')
-        ->leftJoin('attendance', 'attendance.student_id', '=', 'student.ID')
-        ->select('student.*', 'users.email', 'users.name', 'attendance', 'departure')
-        ->get();
-    $hours = [];
-    foreach ($attendance as $attend) {
-        $time = (strtotime($attend->departure) - strtotime($attend->attendance)) / 3600;
-        $hours[$attend->ID][] = $time;
-    }
-
     $times = [];
-    foreach ($attendance as $attend) {
-        $sum = 0;
-        foreach ($hours[$attend->ID] as $hour) {
-            $sum = $sum + $hour;
-        }
-        $times[$attend->ID] = $sum;
+    foreach ($attendances as $attend) {
+        $times[$attend->ID] = $attend->attendance;
     }
 
     $links = DB::table('student_link')
@@ -111,24 +96,16 @@ Route::get('/student/dashboard', function () {
         ->select('student_company.*', 'company_mentor.*', 'users.email', 'users.name')
         ->get();
 
-    $attendance = DB::table('users')
+    $attendances = DB::table('users')
         ->join('student', 'users.ID', '=', 'student.user_id')
         ->leftJoin('attendance', 'attendance.student_id', '=', 'student.ID')
-        ->select('student.*', 'users.email', 'users.name', 'attendance', 'departure')
+        ->select('student.*', 'users.email', 'users.name', DB::raw('count(attendance.ID) as attendance'))
+        ->groupBy('student.ID')
         ->get();
-    $hours = [];
-    foreach ($attendance as $attend) {
-        $time = (strtotime($attend->departure) - strtotime($attend->attendance)) / 3600;
-        $hours[$attend->ID][] = $time;
-    }
 
     $times = [];
-    foreach ($attendance as $attend) {
-        $sum = 0;
-        foreach ($hours[$attend->ID] as $hour) {
-            $sum = $sum + $hour;
-        }
-        $times[$attend->ID] = $sum;
+    foreach ($attendances as $attend) {
+        $times[$attend->ID] = $attend->attendance;
     }
 
     $links = DB::table('users')
@@ -164,33 +141,19 @@ Route::get('/hr/dashboard', function () {
         ->select('student_company.*', 'company_mentor.*', 'users.email', 'users.name')
         ->get();
 
-    $attendances = DB::table('users')
+        $attendances = DB::table('users')
         ->join('student', 'users.ID', '=', 'student.user_id')
         ->leftJoin('attendance', 'attendance.student_id', '=', 'student.ID')
         ->select('student.*', 'users.email', 'users.name', DB::raw('count(attendance.ID) as attendance'))
         ->groupBy('student.ID')
         ->get();
 
-    $attendance = DB::table('users')
-        ->join('student', 'users.ID', '=', 'student.user_id')
-        ->leftJoin('attendance', 'attendance.student_id', '=', 'student.ID')
-        ->select('student.*', 'users.email', 'users.name', 'attendance', 'departure')
-        ->get();
-    $hours = [];
-    foreach ($attendance as $attend) {
-        $time = (strtotime($attend->departure) - strtotime($attend->attendance)) / 3600;
-        $hours[$attend->ID][] = $time;
-    }
-
     $times = [];
-    foreach ($attendance as $attend) {
-        $sum = 0;
-        foreach ($hours[$attend->ID] as $hour) {
-            $sum = $sum + $hour;
-        }
-        $times[$attend->ID] = $sum;
+    foreach ($attendances as $attend) {
+        $times[$attend->ID] = $attend->attendance;
     }
 
+    
     $links = DB::table('student_link')
         ->get();
 
@@ -250,24 +213,9 @@ Route::get('/company/dashboard', function () {
         ->groupBy('student.ID')
         ->get();
 
-    $attendance = DB::table('users')
-        ->join('student', 'users.ID', '=', 'student.user_id')
-        ->leftJoin('attendance', 'attendance.student_id', '=', 'student.ID')
-        ->select('student.*', 'users.email', 'users.name', 'attendance', 'departure')
-        ->get();
-    $hours = [];
-    foreach ($attendance as $attend) {
-        $time = (strtotime($attend->departure) - strtotime($attend->attendance)) / 3600;
-        $hours[$attend->ID][] = $time;
-    }
-
     $times = [];
-    foreach ($attendance as $attend) {
-        $sum = 0;
-        foreach ($hours[$attend->ID] as $hour) {
-            $sum = $sum + $hour;
-        }
-        $times[$attend->ID] = $sum;
+    foreach ($attendances as $attend) {
+        $times[$attend->ID] = $attend->attendance;
     }
 
     $links = DB::table('users')
@@ -330,24 +278,16 @@ Route::get('/university/dashboard', function () {
         ->select('student_company.*', 'company_mentor.*', 'users.email', 'users.name')
         ->get();
 
-    $attendance = DB::table('users')
+    $attendances = DB::table('users')
         ->join('student', 'users.ID', '=', 'student.user_id')
         ->leftJoin('attendance', 'attendance.student_id', '=', 'student.ID')
-        ->select('student.*', 'users.email', 'users.name', 'attendance', 'departure')
+        ->select('student.*', 'users.email', 'users.name', DB::raw('count(attendance.ID) as attendance'))
+        ->groupBy('student.ID')
         ->get();
-    $hours = [];
-    foreach ($attendance as $attend) {
-        $time = (strtotime($attend->departure) - strtotime($attend->attendance)) / 3600;
-        $hours[$attend->ID][] = $time;
-    }
 
     $times = [];
-    foreach ($attendance as $attend) {
-        $sum = 0;
-        foreach ($hours[$attend->ID] as $hour) {
-            $sum = $sum + $hour;
-        }
-        $times[$attend->ID] = $sum;
+    foreach ($attendances as $attend) {
+        $times[$attend->ID] = $attend->attendance;
     }
 
     $links = DB::table('users')

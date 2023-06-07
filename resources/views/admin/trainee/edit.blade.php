@@ -101,7 +101,7 @@
 
                             <!-- hours -->
                             <div class="space-y-2">
-                                <x-form.label for="hours" :value="__('Training Hours')" />
+                                <x-form.label for="hours" :value="__('Training Days')" />
 
                                 <x-form.input-with-icon-wrapper>
                                     <x-slot name="icon">
@@ -109,7 +109,7 @@
                                     </x-slot>
 
                                     <x-form.input withicon id="hours" class="block w-full" type="number"
-                                        name="hours" :value="old('hours', $student->hours)" placeholder="{{ __('Training Hours') }}" />
+                                        name="hours" :value="old('hours', $student->hours)" placeholder="{{ __('Training Days') }}" />
                                 </x-form.input-with-icon-wrapper>
                             </div>
 

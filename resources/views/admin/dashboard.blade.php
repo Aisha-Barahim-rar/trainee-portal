@@ -125,9 +125,9 @@
                             <p class="text-sm font-medium leading-6 text-gray-600">
                                 @foreach ($times as $i => $time)
                                     @if ($i === $student->ID)
-                                        {{ round(($time / $student->hours) * 100) }}
+                                        {{ $time }}
                                     @endif
-                                @endforeach %
+                                @endforeach out of  {{ $student->hours}} days
                             </p>
                             <div class=" bg-gray-200 h-1 w-full rounded-full" x-data="{
                                 val: @foreach ($times as $i => $time)
@@ -164,7 +164,6 @@
                 data.forEach(function(a, i) {
                     temp.push(a.innerHTML.substring(1, a.innerHTML.length - 1).split(",").map(Number));
                 })
-                console.log(temp)
                 gradientStroke1.addColorStop(1, "rgba(203,12,159,0.2)");
                 gradientStroke1.addColorStop(0.2, "rgba(72,72,176,0.0)");
                 gradientStroke1.addColorStop(0, "rgba(203,12,159,0)"); //purple colors
@@ -225,6 +224,7 @@
                                     borderDash: [5, 5],
                                 },
                                 ticks: {
+                                    stepSize: 1,
                                     display: true,
                                     padding: 10,
                                     color: "#b2b9bf",
