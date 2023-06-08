@@ -113,6 +113,20 @@
                                 </x-form.input-with-icon-wrapper>
                             </div>
 
+                            <!-- reward -->
+                            <div class="space-y-2">
+                                <x-form.label for="reward" :value="__('Financial Reward')" />
+
+                                <x-form.input-with-icon-wrapper>
+                                    <x-slot name="icon">
+                                        <x-heroicon-o-cash aria-hidden="true" class="w-5 h-5" />
+                                    </x-slot>
+
+                                    <x-form.input withicon id="reward" class="block w-full" type="number"
+                                        name="reward" :value="old('reward', $student->reward)" placeholder="{{ __('Financial Reward') }}" />
+                                </x-form.input-with-icon-wrapper>
+                            </div>
+
                             <input id="user_id" name="user_id" type="hidden" value={{ $student->user_id }} />
 
                             <div class="flex justify-end sm:flex-col sm:items-end mt-6">

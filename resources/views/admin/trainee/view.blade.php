@@ -84,6 +84,30 @@
                                 </p>
                             </div>
                         </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 mt-6">
+                            <div>
+                                <h3 class="text-sm font-semibold text-gray-900 font-medium">
+                                    {{ __('Training Days:') }}
+                                </h3>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">
+                                    {{ $student->hours?$student->hours:"-" }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 mt-6">
+                            <div>
+                                <h3 class="text-sm font-semibold text-gray-900 font-medium">
+                                    {{ __('Financial Reward:') }}
+                                </h3>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">
+                                    {{ $student->reward?$student->reward:"-" }}
+                                </p>
+                            </div>
+                        </div>
                     @endforeach
                 </div>
             </div>
