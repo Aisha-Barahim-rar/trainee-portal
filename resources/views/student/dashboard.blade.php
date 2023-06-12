@@ -67,21 +67,16 @@
                                 {{ $student->major }}</p>
                         </div>
                         <div class="space-y-2">
-                            <p class="text-sm font-semibold leading-6 text-gray-700">
-                                @foreach ($mentors as $mentor)
-                                    @if ($mentor->student_id === $student->ID)
+                            @foreach ($mentors as $mentor)
+                                @if ($mentor->student_id === $student->ID)
+                                    <p class="text-sm font-semibold leading-6 text-gray-700">
                                         {{ $mentor->name }}
-                                    @endif
-                                @endforeach
-                            </p>
-
-                            <p class="mt-1 truncate text-xs leading-5 text-gray-500">
-                                @foreach ($mentors as $mentor)
-                                    @if ($mentor->student_id === $student->ID)
+                                    </p>
+                                    <p class="mt-1 truncate text-xs leading-5 text-gray-500">
                                         {{ $mentor->department }}
-                                    @endif
-                                @endforeach
-                            </p>
+                                    </p>
+                                @endif
+                            @endforeach
                         </div>
                         <div class="space-y-2">
                             <p class="text-sm font-medium leading-6 text-gray-600">
