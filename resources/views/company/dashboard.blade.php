@@ -1,4 +1,4 @@
-<x-hr-layout>
+<x-company-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Dashboard') }}
@@ -69,9 +69,8 @@
                         </div>
                     </div>
                 </div>
-                @foreach ($data as $record)
-                    <div name="data" data-id="{{ json_encode($record) }}" hidden>{{ json_encode($record) }}</div>
-                @endforeach
+
+                <div name="data" data-id="{{ json_encode($data) }}" hidden>{{ json_encode($data) }}</div>
 
             </div>
 
@@ -97,7 +96,7 @@
                         class="py-6 px-6 border rounded-md mb-4 bg-gray-50 border-gray-50 grid grid-cols-3 md:items-center gap-4">
                         <div class="space-y-2">
                             <p class="text-sm font-semibold leading-6 text-gray-700">
-                                <a href="{{ route('hr.trainees.view', $student->ID) }}">
+                                <a href="{{ route('company.trainees.view', $student->ID) }}">
                                     {{ $student->name }}
                                 </a>
                             </p>
@@ -118,15 +117,15 @@
                         </div>
                         <div class="space-y-2">
                             <p class="text-sm font-medium leading-6 text-gray-600">
-                                @foreach ($times as $i => $time)
+                               @foreach ($times as $i => $time)
                                     @if ($i === $student->ID)
                                         {{ $time }}
                                     @endif
                                 @endforeach out of  {{ $student->hours}} days
                             </p>
                             <div class=" bg-gray-200 h-1 w-full rounded-full" x-data="{
-                                val: @foreach ($times as $i => $time)
-                                    @if ($i === $student->ID && $student->hours>0)
+                                val: @foreach ($times as $i => $time )
+                                    @if ($i === $student->ID && $student->hours>0 )
                                         {{ round(($time / $student->hours) * 100) }}
                                     @endif @endforeach,
                                 start: 0
@@ -169,8 +168,7 @@
                 gradientStroke2.addColorStop(1, "rgba(20,23,39,0)");
                 gradientStroke2.addColorStop(0.2, "rgba(72,72,176,0)");
                 gradientStroke2.addColorStop(0, "rgba(20,23,39,0)"); //purple colors
-                departments = ["Human Resources", "Information Technology", "Accounts - Real Estate", "Accounts - BTH",
-                    "Investment"
+                departments = ["Number of Trainees"
                 ]
                 colors = ["#F5B041", "#82E0AA", "#3498DB", "#BB8FCE", "#EC7063"]
                 datasets = []
@@ -220,6 +218,7 @@
                                     borderDash: [5, 5],
                                 },
                                 ticks: {
+                                    stepSize: 1,
                                     display: true,
                                     padding: 10,
                                     color: "#b2b9bf",
@@ -240,7 +239,6 @@
                                     borderDash: [5, 5],
                                 },
                                 ticks: {
-                                    stepSize: 1,
                                     display: true,
                                     color: "#b2b9bf",
                                     padding: 20,
@@ -259,4 +257,4 @@
         </script>
     @endpush
 
-</x-hr-layout>
+</x-company-layout>
