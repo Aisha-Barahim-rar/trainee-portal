@@ -67,7 +67,7 @@
                                     </x-slot>
 
                                     <x-form.input withicon id="notes" class="block w-full" type="text"
-                                        name="notes" :value="old('notes', $attendance->notes)" required placeholder="{{ __('Notes') }}" />
+                                        name="notes" :value="old('notes', $attendance->notes)"  placeholder="{{ __('Notes') }}" />
                                 </x-form.input-with-icon-wrapper>
                             </div>
 

@@ -88,7 +88,7 @@
                             </p>
                             <div class=" bg-gray-200 h-1 w-full rounded-full" x-data="{
                                 val: @foreach ($times as $i => $time)
-                                    @if ($i === $student->ID)
+                                    @if ($i === $student->ID && $student->hours>0)
                                         {{ round(($time / $student->hours) * 100) }}
                                     @endif @endforeach,
                                 start: 0
